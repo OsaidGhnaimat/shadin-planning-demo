@@ -132,12 +132,12 @@ table.t input[type=number] { text-align: center; }
 .sinner { position: relative; min-width: 100%; }
 .shead, .srow { display: flex; }
 .shead { position: sticky; top: 0; z-index: 6; height: 44px; background: #eef0ef; border-bottom: 1px solid var(--line); }
-.scells { display: flex; align-items: center; flex: none; position: sticky; left: 0; z-index: 4; background: #fff; border-right: 2px solid var(--line); width: var(--tblw, 640px); }
+.scells { display: flex; align-items: center; flex: none; position: sticky; left: 0; z-index: 4; background: #fff; border-right: 2px solid var(--line); width: var(--tblw, 860px); }
 .shead .scells { background: #eef0ef; z-index: 7; font-size: 12px; font-weight: 600; height: 100%; }
 .c { flex: none; padding: 0 6px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .c-id { width: 74px; color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 5px; }
 .c-name { width: 244px; }
-.c-dur { width: 52px; text-align: center; } .c-s, .c-f { width: 80px; text-align: center; font-size: 12.5px; } .c-tf { width: 52px; text-align: center; } .c-pct { width: 56px; text-align: center; }
+.c-dur { width: 52px; text-align: center; } .c-s, .c-f, .c-bs, .c-bf { width: 80px; text-align: center; font-size: 12.5px; } .c-bs, .c-bf { color: var(--muted); } .c-sp { width: 56px; text-align: center; font-size: 12.5px; color: var(--muted); } .c-tf { width: 52px; text-align: center; } .c-pct { width: 56px; text-align: center; }
 .srow { height: 34px; border-bottom: 1px solid var(--line2); }
 .srow .scells { height: 34px; }
 .srow.sel .scells, .srow.sel .gcell { background: #eaf0fc; }
@@ -173,7 +173,7 @@ table.t input[type=number] { text-align: center; }
 .bl { position: absolute; top: 27px; height: 4px; background: #9aa6b0; border-radius: 2px; z-index: 2; }
 .blabel { position: absolute; top: 8px; line-height: 18px; font-size: 12px; color: #45525e; white-space: nowrap; z-index: 3; direction: rtl; pointer-events: none; }
 .sched-empty { padding: 40px; text-align: center; color: var(--muted); direction: rtl; }
-.collapsed-tbl .c-dur, .collapsed-tbl .c-s, .collapsed-tbl .c-f, .collapsed-tbl .c-tf, .collapsed-tbl .c-pct { display: none; }
+.collapsed-tbl .c-dur, .collapsed-tbl .c-s, .collapsed-tbl .c-f, .collapsed-tbl .c-bs, .collapsed-tbl .c-bf, .collapsed-tbl .c-tf, .collapsed-tbl .c-pct, .collapsed-tbl .c-sp { display: none; }
 
 /* ---------- نوافذ ---------- */
 .overlay { position: fixed; inset: 0; background: rgba(15, 25, 35, .5); display: flex; align-items: flex-start; justify-content: center; padding: 5vh 14px; z-index: 100; overflow-y: auto; }
@@ -215,6 +215,53 @@ table.t input[type=number] { text-align: center; }
   .side, .top .btn, .stool, .no-print { display: none !important; } .app { display: block; height: auto; } .main, .view { height: auto; overflow: visible; }
   body { background: #fff; } .card { break-inside: avoid; }
 }
+
+/* WBS شجري + صف ملخص المشروع */
+.srow.grp.proj .scells { background: #1d3a6b; color: #fff; font-weight: 700; }
+.srow.grp.proj .c-name { cursor: default; }
+.srow.grp.proj .t-mut { color: #b9c6e0; }
+.srow.grp.sel .scells { background: #e3ebfb; }
+.srow.grp .caret.dim { opacity: .3; }
+.srow.grp .c-id { font-weight: 500; }
+.srow .c-name { box-sizing: border-box; }
+.srow:not(.grp) .c-name .cell-in { width: 100%; }
+
+/* صفحة WBS */
+.wtool { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+.vsep { width: 1px; height: 22px; background: var(--line); margin: 0 4px; }
+.wtree { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; }
+.wrow { display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 12px; border-bottom: 1px solid var(--line2); cursor: pointer; }
+.wrow:last-child { border-bottom: 0; }
+.wrow:hover { background: #f6f8f7; } .wrow.sel { background: #eaf0fc; }
+.wcode { width: 64px; color: var(--muted); font-size: 12.5px; flex: none; }
+.wname { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.wname .cell-in { flex: 1; min-width: 0; }
+.wdot { width: 9px; height: 9px; border-radius: 2px; background: var(--line); flex: none; } .wdot.par { background: var(--ink); }
+.wcnt { color: var(--muted); font-size: 12.5px; width: 70px; text-align: center; flex: none; }
+
+/* إعدادات الشركة: شبكة السنة + عطل على الـ Gantt */
+.ygrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ymon { font-size: 11px; } .ymon b { display: block; font-size: 12px; margin-bottom: 3px; }
+.yd { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; direction: ltr; }
+.yd i { font-style: normal; text-align: center; height: 17px; line-height: 17px; font-size: 10px; border-radius: 2px; color: var(--muted); }
+.yd i.w { background: rgba(20, 32, 43, .08); } .yd i.h { background: #d9482b; color: #fff; font-weight: 600; }
+.lg { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; } .lg.h { background: #d9482b; } .lg.w { background: rgba(20, 32, 43, .12); }
+.chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.hol { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, rgba(217, 72, 43, .16) 0 4px, rgba(217, 72, 43, .06) 4px 8px); border-left: 1px solid rgba(217, 72, 43, .35); }
+.hol.cal { background: repeating-linear-gradient(135deg, rgba(58, 100, 200, .14) 0 4px, rgba(58, 100, 200, .05) 4px 8px); border-left-color: rgba(58, 100, 200, .3); }
+
+/* قائمة التحقق وبيانات المشروع */
+.ck { align-items: flex-start; gap: 8px; } .ck.dim { opacity: .45; }
+.ckm { width: 20px; height: 20px; border-radius: 50%; flex: none; display: inline-grid; place-items: center; font-size: 12px; color: #fff; margin-top: 1px; }
+.ckm.ok { background: var(--ok); } .ckm.no { background: var(--crit); }
+.fld.miss input, .fld.miss textarea, .fld.miss select { background: #fdf1ef; border-color: #f1c4bb; }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+textarea { width: 100%; font: inherit; border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; resize: vertical; }
+.startc{display:flex;flex-direction:column;gap:6px}.startc .btn{align-self:flex-start;margin-top:auto}
+.itile { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; display: flex; flex-direction: column; } .itile span { font-size: 11.5px; color: var(--muted); } .itile b { font-size: 16px; font-weight: 600; }
+.pbars { display: flex; gap: 18px; align-items: flex-end; height: 190px; padding: 0 8px; } .pb { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; } .pb i { width: 100%; max-width: 54px; border-radius: 3px 3px 0 0; } .pb span { font-size: 12px; color: var(--muted); }
+.lg-e { border-top: 1px solid var(--line2); padding: 6px 0; } .lg-e summary { display: flex; gap: 8px; align-items: center; cursor: pointer; list-style: none; } .lg-e summary::-webkit-details-marker { display: none; }
+.lg-i { width: 22px; height: 22px; border-radius: 6px; display: inline-grid; place-items: center; background: var(--line2); font-size: 12px; flex: none; } .lg-i.import { background: #dfe8fa; } .lg-i.progress { background: #d9f0e6; } .lg-i.finance { background: #fdecd0; }
 
 </style>
 </head>
@@ -543,7 +590,11 @@ table.t input[type=number] { text-align: center; }
     dashboard: '<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>',
     schedule: '<path d="M4 6h9M8 12h12M6 18h9"/><path d="M3 3v18" opacity=".4"/>',
     progress: '<path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v4.5h-4.5"/>',
-    materials: '<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>',
+    wbs: '<path d="M4 5h6v4H4zM14 11h6v4h-6zM14 17h6v4h-6zM7 9v10h7M7 13h7"/>',
+    checklist: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 9 1.5 1.5L12 8M8 15l1.5 1.5L12 14M14.5 9.5H17M14.5 15.5H17"/>',
+    company: '<path d="M4 21V7l8-4 8 4v14M9 21v-5h6v5M8 10h2M14 10h2M8 13h2M14 13h2"/>',
+    info: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
     baselines: '<path d="M5 21V4M5 5h12l-2 4 2 4H5"/>',
     scurve: '<path d="M3 20h18M3 17c5 0 5-2 8-7s5-6 10-6"/>',
     resources: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-4 3-6 6-6s6 2 6 6M16 5.5a3 3 0 0 1 0 5.5M18 14c2 .6 3 2.5 3 6"/>',
@@ -652,54 +703,217 @@ table.t input[type=number] { text-align: center; }
 
 </script>
   <script>
-/* PlanFlow — حسابات مشتركة بين الصفحات: مؤشرات المشروع + تحليل المواد */
+/* PlanFlow — هيكل WBS متعدد المستويات (شجرة بعمق غير محدود).
+ * كل عنصر: { id, name, parent } — parent = '' للجذر. ترتيب المصفوفة = ترتيب العرض بين الإخوة.
+ * دوال نقيّة تعمل على كائن المشروع S (تُستدعى داخل Store.mutate). */
+(function (g) {
+  const PF = (g.PF = g.PF || {});
+
+  // يضمن أن كل عنصر له parent صالح وبلا حلقات
+  function normalize(S) {
+    const ids = new Set(S.wbs.map((w) => w.id));
+    S.wbs.forEach((w) => { if (w.parent == null || !ids.has(w.parent) || w.parent === w.id) w.parent = ''; });
+    S.wbs.forEach((w) => {
+      const seen = new Set([w.id]);
+      let p = w.parent;
+      while (p) { if (seen.has(p)) { w.parent = ''; break; } seen.add(p); const x = S.wbs.find((y) => y.id === p); p = x ? x.parent : ''; }
+    });
+  }
+
+  const byId = (S, id) => S.wbs.find((w) => w.id === id);
+  const kids = (S, id) => S.wbs.filter((w) => (w.parent || '') === (id || ''));
+
+  // قائمة مسطّحة بالترتيب العمودي (depth-first) مع العمق
+  function flat(S) {
+    const out = [];
+    const walk = (pid, depth) => kids(S, pid).forEach((w) => { out.push({ w, depth, hasKids: kids(S, w.id).length > 0 }); walk(w.id, depth + 1); });
+    walk('', 0);
+    return out;
+  }
+
+  // معرّفات العنصر وكل أحفاده
+  function subtreeIds(S, id) {
+    const out = [id];
+    const walk = (p) => kids(S, p).forEach((w) => { out.push(w.id); walk(w.id); });
+    walk(id);
+    return out;
+  }
+
+  function path(S, id, sep) {
+    const names = []; let w = byId(S, id), guard = 0;
+    while (w && guard++ < 60) { names.unshift(w.name); w = byId(S, w.parent); }
+    return names.join(sep || ' › ');
+  }
+
+  function depthOf(S, id) { let d = 0, w = byId(S, id); while (w && w.parent && d < 60) { d++; w = byId(S, w.parent); } return d; }
+
+  // كود WBS رقمي مثل 1.2.3 حسب الترتيب
+  function codes(S) {
+    const out = {};
+    const walk = (pid, prefix) => kids(S, pid).forEach((w, i) => { const c = prefix ? prefix + '.' + (i + 1) : String(i + 1); out[w.id] = c; walk(w.id, c); });
+    walk('', '');
+    return out;
+  }
+
+  function add(S, parent, name) {
+    const id = PF.uid ? PF.uid('w') : 'w' + Math.random().toString(36).slice(2, 7);
+    const w = { id, name: name || 'عنصر جديد', parent: parent || '' };
+    // يوضع بعد آخر حفيد للأب ليبقى الترتيب منطقياً
+    if (parent) {
+      const sub = subtreeIds(S, parent);
+      let last = -1; S.wbs.forEach((x, i) => { if (sub.includes(x.id)) last = i; });
+      S.wbs.splice(last + 1, 0, w);
+    } else S.wbs.push(w);
+    return id;
+  }
+
+  // إزاحة لليمين: يصبح ابناً لأخيه السابق
+  function indent(S, id) {
+    const w = byId(S, id); if (!w) return false;
+    const sib = kids(S, w.parent), i = sib.findIndex((x) => x.id === id);
+    if (i <= 0) return false;
+    w.parent = sib[i - 1].id; return true;
+  }
+  // إزاحة لليسار: يصبح أخاً لأبيه (بعده)
+  function outdent(S, id) {
+    const w = byId(S, id); if (!w || !w.parent) return false;
+    const p = byId(S, w.parent);
+    w.parent = p.parent || '';
+    // نقل w بعد الأب (وبعد أحفاده) في المصفوفة
+    const sub = subtreeIds(S, w.id);
+    const moved = S.wbs.filter((x) => sub.includes(x.id));
+    S.wbs = S.wbs.filter((x) => !sub.includes(x.id));
+    const psub = subtreeIds(S, p.id);
+    let last = -1; S.wbs.forEach((x, i) => { if (psub.includes(x.id)) last = i; });
+    S.wbs.splice(last + 1, 0, ...moved);
+    return true;
+  }
+  // تحريك بين الإخوة (-1 فوق، +1 تحت) مع أحفاده
+  function move(S, id, dir) {
+    const w = byId(S, id); if (!w) return false;
+    const sib = kids(S, w.parent), i = sib.findIndex((x) => x.id === id), j = i + dir;
+    if (j < 0 || j >= sib.length) return false;
+    const other = sib[j];
+    const A = subtreeIds(S, id), B = subtreeIds(S, other.id);
+    const a = S.wbs.filter((x) => A.includes(x.id)), b = S.wbs.filter((x) => B.includes(x.id));
+    const rest = S.wbs.filter((x) => !A.includes(x.id) && !B.includes(x.id));
+    const firstIdx = Math.min(S.wbs.findIndex((x) => A.includes(x.id)), S.wbs.findIndex((x) => B.includes(x.id)));
+    const ins = rest.slice(0, firstIdx).length;
+    rest.splice(ins, 0, ...(dir < 0 ? [...a, ...b] : [...b, ...a]));
+    S.wbs = rest;
+    return true;
+  }
+  // حذف: الأبناء والأنشطة تنتقل للأب (أو بلا مجموعة إن كان جذراً)
+  function remove(S, id) {
+    const w = byId(S, id); if (!w) return;
+    S.wbs.forEach((x) => { if (x.parent === id) x.parent = w.parent || ''; });
+    S.activities.forEach((a) => { if (a.wbs === id) a.wbs = w.parent || ''; });
+    S.wbs = S.wbs.filter((x) => x.id !== id);
+  }
+
+  // تجميع (Roll-up) لعنصر وكل أحفاده: تواريخ وإنجاز وFloat وخط الأساس
+  function rollup(S, C, id, bl) {
+    const ids = id == null ? null : new Set(subtreeIds(S, id));
+    const acts = S.activities.filter((a) => (ids ? ids.has(a.wbs) : true));
+    if (!acts.length) return { n: 0 };
+    const rs = acts.map((a) => C.byId[a.id]);
+    const s = Math.min(...rs.map((r) => r.s)), f = Math.max(...rs.map((r) => r.f));
+    const wt = (a) => Math.max(1, a.dur || 0);
+    const tot = acts.reduce((t, a) => t + wt(a), 0) || 1;
+    const perf = acts.reduce((t, a) => t + wt(a) * (C.byId[a.id].status === 'complete' ? 100 : a.pct || 0), 0) / tot;
+    const open = rs.filter((r) => r.status !== 'complete');
+    const tf = open.length ? Math.min(...open.map((r) => r.tf)) : null;
+    let bs = null, bf = null, sched = null;
+    if (bl) {
+      const bs_ = acts.map((a) => bl.data[a.id]).filter(Boolean);
+      if (bs_.length) {
+        bs = Math.min(...bs_.map((b) => b.s)); bf = Math.max(...bs_.map((b) => b.f));
+        const dd = PF.D.toNum(S.meta.dataDate) + 1;
+        const tw = bs_.reduce((t, b) => t + Math.max(1, b.dur || 0), 0) || 1;
+        sched = bs_.reduce((t, b) => t + Math.max(1, b.dur || 0) * PF.CPM.frac(C.cals[b.cal] || C.defCal, b.s, b.f, b.dur, dd) * 100, 0) / tw;
+      }
+    }
+    const dur = C.defCal.wdb(s, f);
+    return { n: acts.length, s, f, dur, perf, tf, bs, bf, sched };
+  }
+
+  PF.WBS = { normalize, byId, kids, flat, subtreeIds, path, depthOf, codes, add, indent, outdent, move, remove, rollup };
+  if (typeof module !== 'undefined' && module.exports) module.exports = PF.WBS;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+  <script>
+/* PlanFlow — إعدادات الشركة: الدولة، عطلة نهاية الأسبوع، والعطل الرسمية لكل سنة.
+ * تُحفظ منفصلة عن المشروع (مفتاح planflow.company) وتُطبَّق تلقائياً على كل تقاويم أي مشروع.
+ * القوالب تحوي العطل ذات التاريخ الميلادي الثابت فقط؛ العطل الهجرية (الأعياد…) تتغير كل سنة وتُضاف يدوياً كنطاق. */
+(function (g) {
+  const PF = (g.PF = g.PF || {});
+  const KEY = 'planflow.company';
+
+  // weekend: أرقام الأيام (0 = الأحد … 6 = السبت). fixed: [شهر، يوم، اسم، عدد الأيام؟]
+  const COUNTRIES = {
+    JO: { name: 'الأردن', weekend: [5, 6], fixed: [[1, 1, 'رأس السنة الميلادية'], [5, 1, 'عيد العمال'], [5, 25, 'عيد الاستقلال'], [12, 25, 'عيد الميلاد المجيد']] },
+    SA: { name: 'السعودية', weekend: [5, 6], fixed: [[2, 22, 'يوم التأسيس'], [9, 23, 'اليوم الوطني']] },
+    AE: { name: 'الإمارات', weekend: [6, 0], fixed: [[1, 1, 'رأس السنة الميلادية'], [12, 2, 'اليوم الوطني'], [12, 3, 'اليوم الوطني (اليوم الثاني)']] },
+    EG: { name: 'مصر', weekend: [5, 6], fixed: [[1, 7, 'عيد الميلاد المجيد'], [1, 25, 'عيد الثورة والشرطة'], [4, 25, 'عيد تحرير سيناء'], [5, 1, 'عيد العمال'], [6, 30, 'ثورة 30 يونيو'], [7, 23, 'ثورة 23 يوليو'], [10, 6, 'عيد القوات المسلحة']] },
+    KW: { name: 'الكويت', weekend: [5, 6], fixed: [[1, 1, 'رأس السنة الميلادية'], [2, 25, 'العيد الوطني'], [2, 26, 'عيد التحرير']] },
+    QA: { name: 'قطر', weekend: [5, 6], fixed: [[12, 18, 'اليوم الوطني']] },
+    OM: { name: 'عُمان', weekend: [5, 6], fixed: [[11, 18, 'اليوم الوطني']] },
+    BH: { name: 'البحرين', weekend: [5, 6], fixed: [[1, 1, 'رأس السنة الميلادية'], [5, 1, 'عيد العمال'], [12, 16, 'اليوم الوطني'], [12, 17, 'اليوم الوطني (اليوم الثاني)']] },
+    OTHER: { name: 'دولة أخرى (إدخال يدوي)', weekend: [5, 6], fixed: [] },
+  };
+
+  const DEFAULT = () => ({ name: '', country: 'JO', weekend: COUNTRIES.JO.weekend.slice(), holidays: [] });
+
+  function load() {
+    let c = null;
+    try { c = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { c = null; }
+    return clean(c || DEFAULT());
+  }
+  function clean(c) {
+    const d = DEFAULT();
+    c = Object.assign(d, c || {});
+    if (!COUNTRIES[c.country]) c.country = 'OTHER';
+    c.weekend = Array.isArray(c.weekend) ? c.weekend.filter((x) => x >= 0 && x <= 6) : d.weekend;
+    c.holidays = (c.holidays || []).filter((h) => h && /^\d{4}-\d{2}-\d{2}$/.test(h.date)).map((h) => ({ date: h.date, name: String(h.name || 'عطلة رسمية') }));
+    c.holidays.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+    // إزالة المكرر بنفس التاريخ
+    c.holidays = c.holidays.filter((h, i, arr) => i === 0 || arr[i - 1].date !== h.date);
+    return c;
+  }
+  function save(c) { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) { /* */ } }
+
+  const pad = (n) => String(n).padStart(2, '0');
+  // عطل القالب الثابتة لسنة معيّنة
+  function presetFor(country, year) {
+    const cc = COUNTRIES[country] || COUNTRIES.OTHER;
+    return cc.fixed.map(([m, d, name]) => ({ date: year + '-' + pad(m) + '-' + pad(d), name }));
+  }
+  // نطاق أيام (مثل أيام العيد)
+  function rangeOf(fromIso, toIso, name) {
+    const out = [];
+    const a = PF.D.toNum(fromIso), b = PF.D.toNum(toIso);
+    for (let d = a; d <= b && d - a < 60; d++) out.push({ date: PF.D.toIso(d), name });
+    return out;
+  }
+  // دمج مع تجنّب التكرار (الجديد يغلب في الاسم)
+  function merge(list, add) {
+    const m = new Map(list.map((h) => [h.date, h]));
+    add.forEach((h) => m.set(h.date, h));
+    return Array.from(m.values()).sort((x, y) => (x.date < y.date ? -1 : x.date > y.date ? 1 : 0));
+  }
+  const years = (c) => Array.from(new Set(c.holidays.map((h) => +h.date.slice(0, 4)))).sort();
+
+  PF.Company = { COUNTRIES, DEFAULT, load, save, clean, presetFor, rangeOf, merge, years };
+  if (typeof module !== 'undefined' && module.exports) module.exports = PF.Company;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+  <script>
+/* PlanFlow — حسابات مشتركة بين الصفحات: مؤشرات المشروع */
 (function (g) {
   const PF = (g.PF = g.PF || {});
   const D = PF.D, CPM = PF.CPM;
-
-  const MAT_STATUS = [
-    ['planned', 'مخطّط'],
-    ['submittal', 'قيد الاعتماد'],
-    ['approved', 'معتمد'],
-    ['ordered', 'تم الطلب'],
-    ['shipped', 'قيد الشحن'],
-    ['delivered', 'وصلت للموقع'],
-  ];
-
-  // تحليل المواد: متى تُطلب؟ متى تصل؟ وهل تؤخر النشاط؟
-  function analyzeMaterials(S, C) {
-    const dd = D.toNum(S.meta.dataDate) + 1; // أول يوم بعد تاريخ البيانات
-    return S.materials.map((m) => {
-      const a = S.activities.find((x) => x.id === m.activityId);
-      const r = a ? C.byId[a.id] : null;
-      const buffer = +m.bufferDays || 0, appr = +m.approvalDays || 0, lead = +m.leadDays || 0;
-      const req = r ? r.s - buffer : null; // مطلوب بالموقع
-      const latestOrder = req != null ? req - lead : null;
-      const latestSubmittal = latestOrder != null ? latestOrder - appr : null;
-      let eta = m.eta ? D.toNum(m.eta) : null;
-      let projected = false;
-      if (m.status === 'delivered') eta = m.eta ? D.toNum(m.eta) : null;
-      else if (eta == null) {
-        projected = true;
-        if (m.status === 'planned' || m.status === 'submittal') eta = dd + appr + lead;
-        else if (m.status === 'approved') eta = dd + lead;
-        else eta = dd + Math.ceil(lead / 2);
-      }
-      const delta = req != null && eta != null ? eta - req : null; // موجب = تأخير بالأيام
-      let health = 'ok', reason = 'ضمن الجدول';
-      if (m.status === 'delivered') { health = 'done'; reason = 'وصلت'; }
-      else if (req == null) { health = 'none'; reason = 'غير مربوطة بنشاط'; }
-      else if (delta > 0) { health = 'late'; reason = (projected ? 'ستتأخر ' : 'متأخرة ') + delta + ' يوم'; }
-      else if (['planned', 'submittal', 'approved'].includes(m.status)) {
-        const due = m.status === 'approved' ? latestOrder : latestSubmittal;
-        const left = due - dd;
-        if (left < 0) { health = 'late'; reason = 'تجاوزت آخر موعد ' + (m.status === 'approved' ? 'للطلب' : 'للتقديم'); }
-        else if (left <= 7) { health = 'risk'; reason = 'تبقّى ' + left + ' يوم لآخر موعد ' + (m.status === 'approved' ? 'للطلب' : 'للتقديم'); }
-      } else if (delta > -3) { health = 'risk'; reason = 'هامش ' + (-delta) + ' يوم فقط'; }
-      const critical = !!(r && (r.critical || r.near)) && (health === 'late' || health === 'risk');
-      return { m, a, r, req, latestOrder, latestSubmittal, eta, projected, delta, health, reason, critical };
-    });
-  }
 
   function metrics(S, C) {
     const e = CPM.evm(S, C);
@@ -718,18 +932,363 @@ table.t input[type=number] { text-align: center; }
     if (bl) Object.values(bl.data).forEach((b) => { baseFinish = Math.max(baseFinish == null ? -1e9 : baseFinish, b.f); });
     const finish = C.project.finish;
     const finishVar = baseFinish != null ? C.defCal.wdb(baseFinish, finish) : null;
-    const mats = analyzeMaterials(S, C);
     return {
       evm: e, cnt, late, baseFinish, finish, finishLast: C.project.last, finishVar,
       pctActual: e.bac ? e.ev / e.bac : 0, pctPlanned: e.bac && e.hasBaseline ? e.pv / e.bac : null,
       crit: C.project.critCount, neg: C.project.negCount,
-      matLate: mats.filter((x) => x.health === 'late').length,
-      matRisk: mats.filter((x) => x.health === 'risk').length,
-      mats,
     };
   }
 
-  PF.Calc = { MAT_STATUS, analyzeMaterials, metrics };
+  PF.Calc = { metrics };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+  <script>
+/* PlanFlow — بيانات المشروع (Master Data) وقائمة التحقق. بيانات نقيّة بلا واجهة. */
+(function (g) {
+  const PF = (g.PF = g.PF || {});
+
+  // [المفتاح، التسمية، النوع، المجموعة]
+  const FIELDS = [
+    ['projectNo', 'رقم المشروع', 'text', 'id'], ['po', 'رقم أمر الشراء / العقد (PO)', 'text', 'id'], ['status', 'حالة المشروع', 'select', 'id'],
+    ['region', 'المنطقة', 'text', 'id'], ['location', 'الموقع', 'text', 'id'], ['stage', 'المرحلة الحالية', 'text', 'id'],
+    ['contractor', 'المقاول', 'text', 'party'], ['consultant', 'الاستشاري', 'text', 'party'], ['pm', 'مدير المشروع', 'text', 'party'], ['planner', 'مخطط المشروع (Planner)', 'text', 'party'],
+    ['contractStart', 'بداية العقد', 'date', 'time'], ['contractFinish', 'نهاية العقد', 'date', 'time'], ['revisedFinish', 'النهاية المعدّلة (بعد التمديدات)', 'date', 'time'], ['forecastFinish', 'النهاية المتوقعة (من الماستر)', 'date', 'master'],
+    ['plannedPct', 'المخطط % (من الماستر)', 'number', 'master'], ['actualPct', 'الفعلي % (من الماستر)', 'number', 'master'], ['spiM', 'SPI (من الماستر)', 'number', 'master'], ['p5080', 'P50 / P80 (نص)', 'text', 'master'],
+    ['contractType', 'نوع العقد (مثل Re-Measured)', 'text', 'cost'], ['originalValue', 'قيمة العقد الأصلية', 'number', 'cost'], ['certified', 'المعتمد للدفع حتى تاريخه (Certified)', 'number', 'cost'], ['paid', 'المدفوع حتى تاريخه (Paid)', 'number', 'cost'], ['delayDamages', 'غرامات التأخير (إن وُجدت)', 'text', 'cost'],
+    ['p50', 'تاريخ الانتهاء P50', 'date', 'risk'], ['p80', 'تاريخ الانتهاء P80', 'date', 'risk'],
+    ['updates', 'التحديثات والملاحظات الأسبوعية (الجدول، COR…)', 'area', 'risk'], ['risk', 'أهم المخاطر', 'area', 'risk'], ['mitigation', 'إجراءات المعالجة', 'area', 'risk'],
+  ];
+  const STATUSES = ['قيد التنفيذ', 'لم يبدأ', 'متوقف', 'مكتمل', 'تحت التسليم'];
+  const CLAIM_STATUS = ['مقدَّم', 'تحت الدراسة', 'معتمد', 'مرفوض'];
+
+  function ensure(S) {
+    S.info = Object.assign({ status: 'قيد التنفيذ', vos: [], cors: [], ipcs: [] }, S.info || {});
+    S.info.vos = S.info.vos || []; S.info.cors = S.info.cors || []; S.info.ipcs = S.info.ipcs || [];
+    S.log = S.log || [];
+    S.checklist = Object.assign({ hidden: {}, manual: [] }, S.checklist || {});
+    return S;
+  }
+
+  const filled = (v) => v != null && String(v).trim() !== '';
+  const has = (k) => (S) => filled(S.info[k]);
+
+  // عناصر القائمة التلقائية: ok(S,C) => true | false | {ok,detail}
+  const ITEMS = [
+    ['info', 'بيانات المشروع', 'projectdata', [
+      ['name', 'اسم المشروع', (S) => filled(S.meta.name) && S.meta.name !== 'مشروع جديد'],
+      ['projectNo', 'رقم المشروع', has('projectNo')], ['po', 'رقم PO / العقد', has('po')], ['region', 'المنطقة والموقع', (S) => filled(S.info.region) || filled(S.info.location)],
+      ['contractor', 'المقاول', has('contractor')], ['consultant', 'الاستشاري', has('consultant')], ['pm', 'مدير المشروع', has('pm')], ['planner', 'المخطط (Planner)', has('planner')],
+      ['cstart', 'بداية العقد', has('contractStart')], ['cfinish', 'نهاية العقد', has('contractFinish')], ['value', 'قيمة العقد الأصلية', has('originalValue')],
+      ['stage', 'المرحلة الحالية', has('stage')],
+    ]],
+    ['sched', 'هيكل الجدول', 'wbs', [
+      ['wbs', 'هيكل WBS (مجموعة واحدة على الأقل)', (S) => S.wbs.length > 0],
+      ['wbsall', 'كل نشاط مربوط بعنصر WBS', (S) => { const m = S.activities.filter((a) => !a.wbs || !S.wbs.some((w) => w.id === a.wbs)); return { ok: !m.length && S.activities.length > 0, detail: m.length ? m.length + ' نشاط بلا WBS' : '', ids: m.map((a) => a.id) }; }],
+      ['acts', 'أنشطة الجدول موجودة', (S) => S.activities.length > 1],
+      ['dur', 'كل الأنشطة لها مدة', (S) => { const m = S.activities.filter((a) => a.type !== 'milestone' && !(+a.dur > 0)); return { ok: !m.length, detail: m.length + ' نشاط بدون مدة', ids: m.map((a) => a.id) }; }],
+      ['logic', 'المنطق مكتمل (لا أنشطة بلا سابق أو لاحق)', (S, C) => { const q = PF.CPM.qualityChecks(S, C).filter((x) => x.key === 'nopred' || x.key === 'nosucc'); const ids = Array.from(new Set(q.flatMap((x) => x.items))); return { ok: !ids.length, detail: ids.length + ' نشاط بحاجة لربط', ids }; }],
+      ['cycle', 'لا توجد حلقات مغلقة في العلاقات', (S, C) => !C.project.errors.length],
+      ['negf', 'لا يوجد Float سالب', (S, C) => ({ ok: !C.project.negCount, detail: C.project.negCount + ' نشاط بـ Float سالب' })],
+    ]],
+    ['cal', 'التقاويم والعطل', 'company', [
+      ['co', 'اسم الشركة والدولة', () => filled(PF.Store.company.name)],
+      ['hy', 'عطل السنة الحالية مُدخلة', () => PF.Store.company.holidays.some((h) => +h.date.slice(0, 4) === new Date().getFullYear())],
+      ['hy2', 'عطل السنة القادمة مُدخلة', () => PF.Store.company.holidays.some((h) => +h.date.slice(0, 4) === new Date().getFullYear() + 1)],
+    ]],
+    ['prog', 'المتابعة والتقدّم', 'progress', [
+      ['bl', 'خط أساس محفوظ', (S) => S.baselines.length > 0],
+      ['pct', 'تحديث تقدّم واحد على الأقل', (S) => S.activities.some((a) => a.pct > 0)],
+      ['dd', 'تاريخ البيانات بعد بداية المشروع', (S) => S.meta.dataDate >= S.meta.startDate],
+      ['snap', 'سجل تحديثات (لمنحنى S الفعلي)', (S) => S.snapshots.length > 0],
+      ['res', 'موارد معرّفة ومسندة', (S) => S.resources.length > 0 && S.activities.some((a) => (a.resources || []).length)],
+    ]],
+    ['risk', 'المخاطر والتغييرات', 'projectdata', [
+      ['risk', 'المخاطر الرئيسية مكتوبة', has('risk')], ['mit', 'إجراءات المعالجة', has('mitigation')],
+      ['p50', 'تاريخا P50 وP80', (S) => filled(S.info.p50) && filled(S.info.p80)],
+      ['vo', 'سجل أوامر التغيير (VO) — أدخل عنصراً أو فعّل «لا يوجد»', (S) => S.info.vos.length > 0 || !!S.checklist.none_vo],
+      ['cor', 'سجل طلبات التغيير (COR) — أدخل عنصراً أو فعّل «لا يوجد»', (S) => S.info.cors.length > 0 || !!S.checklist.none_cor],
+    ]],
+  ];
+
+  // يرجع كل العناصر: [{id,group,groupId,label,link,done,hidden,manual,detail,ids}]
+  function evaluate(S, C) {
+    ensure(S);
+    const out = [];
+    ITEMS.forEach(([gid, gname, link, items]) => items.forEach(([id, label, fn]) => {
+      let r; try { r = fn(S, C); } catch (e) { r = false; }
+      const ok = typeof r === 'object' ? r.ok : !!r;
+      out.push({ id: gid + '.' + id, group: gname, groupId: gid, label, link, done: ok, hidden: !!S.checklist.hidden[gid + '.' + id], manual: false, detail: !ok && r && r.detail || '', ids: r && r.ids || [] });
+    }));
+    S.checklist.manual.forEach((m) => out.push({ id: m.id, group: m.group || 'بنود إضافية', groupId: 'manual', label: m.label, link: '', done: !!m.done, hidden: false, manual: true, detail: '', ids: [] }));
+    return out;
+  }
+  function summary(S, C) {
+    const all = evaluate(S, C).filter((x) => !x.hidden);
+    const done = all.filter((x) => x.done).length;
+    return { total: all.length, done, missing: all.length - done, pct: all.length ? done / all.length : 1 };
+  }
+
+  // المعتمد والمدفوع: يُحسبان من الدفعات إن وُجدت دفعات مدفوعة، وإلا من الرقمين اليدويين/المستوردين
+  function fin(S) {
+    const L = S.info.ipcs || [], sum = (k) => L.filter((x) => x.kind === k).reduce((t, x) => t + (+x.amount || 0), 0);
+    const hasPaid = L.some((x) => x.kind === 'paid');
+    const paid = hasPaid ? sum('paid') : +S.info.paid || 0;
+    const certified = hasPaid ? sum('paid') + sum('unpaid') : +S.info.certified || 0;
+    return { paid, certified, unpaid: sum('unpaid'), forecast: sum('forecast'), derived: hasPaid };
+  }
+
+  PF.Info = { fin, FIELDS, STATUSES, CLAIM_STATUS, ITEMS, ensure, evaluate, summary };
+  if (typeof module !== 'undefined' && module.exports) module.exports = PF.Info;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+  <script>
+/* PlanFlow — سجل التحديثات (LOG). كل مدخل: { id, ts (ISO), type, title, detail[], source }.
+ * الأنواع: import (رفع ملف)، progress (تقدّم)، schedule (جدول)، info (بيانات)، change (VO/COR)، finance (دفعات)، baseline، other. */
+(function (g) {
+  const PF = (g.PF = g.PF || {});
+  const TYPES = { import: 'رفع ملف', progress: 'تحديث تقدّم', schedule: 'تعديل الجدول', info: 'بيانات المشروع', change: 'VO / COR', finance: 'دفعات', baseline: 'خط أساس', other: 'أخرى' };
+  const nowIso = () => new Date().toISOString();
+  const LABELS = () => Object.fromEntries((PF.Info ? PF.Info.FIELDS : []).map((f) => [f[0], f[1]]));
+
+  function entry(type, title, detail, source) {
+    return { id: 'l' + Math.random().toString(36).slice(2, 9), ts: nowIso(), type, title, detail: detail || [], source: source || '' };
+  }
+
+  // يقارن حالتين (كائنات) ويرجع مدخلات السجل المناسبة
+  function diff(a, b) {
+    const out = [];
+    const aa = new Map((a.activities || []).map((x) => [x.id, x])), bb = new Map((b.activities || []).map((x) => [x.id, x]));
+    // تقدّم
+    const prog = [];
+    bb.forEach((n, id) => {
+      const o = aa.get(id); if (!o) return;
+      if ((o.pct || 0) !== (n.pct || 0) || (o.actualStart || '') !== (n.actualStart || '') || (o.actualFinish || '') !== (n.actualFinish || '')) prog.push(`${id} ${n.name}: ${o.pct || 0}% ← ${n.pct || 0}%`);
+    });
+    const ddChanged = a.meta && b.meta && a.meta.dataDate !== b.meta.dataDate;
+    if (prog.length || ddChanged) out.push(entry('progress', prog.length ? `تحديث تقدّم ${prog.length} نشاط` : 'تغيير تاريخ البيانات', (ddChanged ? [`تاريخ البيانات: ${a.meta.dataDate} ← ${b.meta.dataDate}`] : []).concat(prog.slice(0, 12), prog.length > 12 ? [`+${prog.length - 12} أخرى`] : [])));
+    // جدول
+    const sch = [];
+    bb.forEach((n, id) => {
+      const o = aa.get(id);
+      if (!o) { sch.push(`إضافة ${id} ${n.name}`); return; }
+      if (o.dur !== n.dur) sch.push(`${id}: المدة ${o.dur} ← ${n.dur}`);
+      if (JSON.stringify(o.preds) !== JSON.stringify(n.preds)) sch.push(`${id}: تعديل العلاقات`);
+      if (o.name !== n.name) sch.push(`${id}: إعادة تسمية`);
+      if ((o.wbs || '') !== (n.wbs || '')) sch.push(`${id}: نقل إلى WBS آخر`);
+      if (JSON.stringify(o.constraint || null) !== JSON.stringify(n.constraint || null)) sch.push(`${id}: تعديل القيد`);
+    });
+    aa.forEach((o, id) => { if (!bb.has(id)) sch.push(`حذف ${id} ${o.name}`); });
+    if ((a.wbs || []).length !== (b.wbs || []).length) sch.push(`عناصر WBS: ${(a.wbs || []).length} ← ${(b.wbs || []).length}`);
+    if (sch.length) out.push(entry('schedule', `تعديل الجدول (${sch.length})`, sch.slice(0, 12).concat(sch.length > 12 ? [`+${sch.length - 12} أخرى`] : [])));
+    // خط الأساس
+    if ((b.baselines || []).length > (a.baselines || []).length) out.push(entry('baseline', 'حفظ خط أساس جديد', [b.baselines[b.baselines.length - 1].name]));
+    // بيانات المشروع
+    const ai = a.info || {}, bi = b.info || {}, lab = LABELS(), chg = [];
+    Object.keys(lab).forEach((k) => { if (String(ai[k] == null ? '' : ai[k]) !== String(bi[k] == null ? '' : bi[k])) chg.push(`${lab[k]}: ${ai[k] == null || ai[k] === '' ? '—' : ai[k]} ← ${bi[k] == null || bi[k] === '' ? '—' : bi[k]}`); });
+    ['name', 'client', 'startDate'].forEach((k) => { if ((a.meta || {})[k] !== (b.meta || {})[k]) chg.push(`${{ name: 'اسم المشروع', client: 'العميل', startDate: 'بداية الجدول' }[k]}: ${(a.meta || {})[k]} ← ${(b.meta || {})[k]}`); });
+    if (chg.length) out.push(entry('info', `تعديل بيانات المشروع (${chg.length})`, chg.slice(0, 12)));
+    // VO / COR / IPC
+    [['vos', 'change', 'أمر تغيير VO'], ['cors', 'change', 'طلب تغيير COR'], ['ipcs', 'finance', 'دفعة IPC']].forEach(([k, type, nm]) => {
+      const x = ai[k] || [], y = bi[k] || [];
+      if (JSON.stringify(x) === JSON.stringify(y)) return;
+      const d = [];
+      if (y.length > x.length) d.push(`إضافة ${y.length - x.length} ${nm}`); else if (y.length < x.length) d.push(`حذف ${x.length - y.length} ${nm}`);
+      else y.forEach((it, i) => { if (JSON.stringify(it) !== JSON.stringify(x[i])) d.push(`تعديل ${it.no || nm}${it.status ? ' — ' + it.status : ''}${it.kind ? ' — ' + ({ paid: 'مدفوعة', unpaid: 'غير مدفوعة', forecast: 'متوقعة' }[it.kind]) : ''}`); });
+      out.push(entry(type, (type === 'finance' ? 'دفعات: ' : 'تغييرات: ') + d[0], d.slice(0, 10)));
+    });
+    return out;
+  }
+
+  // يضيف مدخلات للسجل مع دمج المتتالي المتشابه خلال دقيقتين (لتجنّب ضجيج التعديلات السريعة)
+  function push(S, items) {
+    S.log = S.log || [];
+    items.forEach((e) => {
+      const last = S.log[S.log.length - 1];
+      if (last && last.type === e.type && last.type !== 'import' && last.title.replace(/\d+/g, '#') === e.title.replace(/\d+/g, '#') && Date.parse(e.ts) - Date.parse(last.ts) < 120000) {
+        last.ts = e.ts; last.title = e.title; last.detail = Array.from(new Set(e.detail.concat(last.detail))).slice(0, 14);
+      } else S.log.push(e);
+    });
+    if (S.log.length > 2000) S.log.splice(0, S.log.length - 2000);
+  }
+
+  PF.Log = { TYPES, entry, diff, push };
+  if (typeof module !== 'undefined' && module.exports) module.exports = PF.Log;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+  <script>
+/* PlanFlow — قارئ xlsx مصغّر (بلا مكتبات): فكّ ZIP بـ DecompressionStream ثم قراءة الأوراق كمصفوفات.
+ * PF.Xlsx.read(arrayBuffer) → Promise<{ sheets: [{ name, rows: [[قيمة…]] }] }> */
+(function (g) {
+  const PF = (g.PF = g.PF || {});
+
+  async function inflate(u8) {
+    const s = new Blob([u8]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+    return new Uint8Array(await new Response(s).arrayBuffer());
+  }
+  async function unzip(buf) {
+    const u8 = new Uint8Array(buf), dv = new DataView(buf);
+    let e = u8.length - 22;
+    while (e >= 0 && dv.getUint32(e, true) !== 0x06054b50) e--;
+    if (e < 0) throw new Error('الملف ليس xlsx صالحاً');
+    const n = dv.getUint16(e + 10, true);
+    let p = dv.getUint32(e + 16, true);
+    const files = {}, dec = new TextDecoder();
+    for (let i = 0; i < n; i++) {
+      if (dv.getUint32(p, true) !== 0x02014b50) break;
+      const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true);
+      const nl = dv.getUint16(p + 28, true), el = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true), off = dv.getUint32(p + 42, true);
+      const name = dec.decode(u8.subarray(p + 46, p + 46 + nl));
+      files[name] = { method, csize, off };
+      p += 46 + nl + el + cl;
+    }
+    const get = async (name) => {
+      const f = files[name]; if (!f) return null;
+      const ln = dv.getUint16(f.off + 26, true), le = dv.getUint16(f.off + 28, true), st = f.off + 30 + ln + le;
+      const raw = u8.subarray(st, st + f.csize);
+      return dec.decode(f.method === 0 ? raw : await inflate(raw));
+    };
+    return { get, names: Object.keys(files) };
+  }
+
+  const ent = (s) => s.replace(/&#(\d+);/g, (_, d) => String.fromCharCode(+d)).replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16))).replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
+  const colIdx = (ref) => { let n = 0; const m = /^[A-Z]+/.exec(ref)[0]; for (let i = 0; i < m.length; i++) n = n * 26 + m.charCodeAt(i) - 64; return n - 1; };
+
+  function sharedStrings(xml) {
+    if (!xml) return [];
+    return (xml.match(/<si\b[\s\S]*?<\/si>/g) || []).map((si) => ent((si.match(/<t\b[^>]*>([\s\S]*?)<\/t>/g) || []).map((t) => t.replace(/<[^>]+>/g, '')).join('')));
+  }
+  function parseSheet(xml, ss) {
+    const rows = [];
+    (xml.match(/<row\b[\s\S]*?<\/row>/g) || []).forEach((rx) => {
+      const rn = +(/\br="(\d+)"/.exec(rx) || [0, rows.length + 1])[1];
+      const arr = [];
+      const re = /<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g; let m;
+      while ((m = re.exec(rx))) {
+        const at = m[1], body = m[2] || '';
+        const ref = /\br="([A-Z]+\d+)"/.exec(at); if (!ref) continue;
+        const t = (/\bt="(\w+)"/.exec(at) || [])[1];
+        const v = (/<v>([\s\S]*?)<\/v>/.exec(body) || [])[1];
+        let val = '';
+        if (t === 's') val = ss[+v] || '';
+        else if (t === 'inlineStr') val = ent((body.match(/<t\b[^>]*>([\s\S]*?)<\/t>/g) || []).map((x) => x.replace(/<[^>]+>/g, '')).join(''));
+        else if (t === 'str' || t === 'e') val = v == null ? '' : ent(v);
+        else if (t === 'b') val = v === '1';
+        else if (v != null && v !== '') val = +v;
+        arr[colIdx(ref[1])] = val;
+      }
+      for (let i = 0; i < arr.length; i++) if (arr[i] === undefined) arr[i] = '';
+      rows[rn - 1] = arr;
+    });
+    for (let i = 0; i < rows.length; i++) if (!rows[i]) rows[i] = [];
+    return rows;
+  }
+
+  async function read(buf) {
+    const z = await unzip(buf);
+    const wb = await z.get('xl/workbook.xml'), rels = await z.get('xl/_rels/workbook.xml.rels');
+    if (!wb) throw new Error('ملف xlsx غير صالح');
+    const ss = sharedStrings(await z.get('xl/sharedStrings.xml'));
+    const target = {};
+    (rels.match(/<Relationship\b[^>]*>/g) || []).forEach((r) => { const id = /\bId="([^"]+)"/.exec(r), t = /\bTarget="([^"]+)"/.exec(r); if (id && t) target[id[1]] = t[1].replace(/^\//, '').replace(/^(?!xl\/)/, 'xl/'); });
+    const sheets = [];
+    for (const m of wb.match(/<sheet\b[^>]*>/g) || []) {
+      const name = ent((/\bname="([^"]*)"/.exec(m) || [, ''])[1]), rid = (/\br:id="([^"]+)"/.exec(m) || [])[1];
+      const xml = target[rid] && (await z.get(target[rid]));
+      sheets.push({ name, rows: xml ? parseSheet(xml, ss) : [] });
+    }
+    return { sheets };
+  }
+
+  PF.Xlsx = { read };
+  if (typeof module !== 'undefined' && module.exports) module.exports = PF.Xlsx;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+  <script>
+/* PlanFlow — استيراد Master Sheet (سجل بيانات البرنامج): صف لكل مشروع، عناوين الأعمدة بالإنجليزية.
+ * parse(rows) → { projects: [{ id, name, row, status }], headerRow }. toInfo(rows, idx) → { meta, info, summary } */
+(function (g) {
+  const PF = (g.PF = g.PF || {});
+  const norm = (s) => String(s == null ? '' : s).toLowerCase().replace(/[^a-z0-9]/g, '');
+  const blank = (v) => v === '' || v == null || /^\s*$/.test(String(v)) || /^(n\/a|na|-|0 )$/i.test(String(v).trim());
+  const txt = (v) => (blank(v) ? '' : String(v).replace(/ /g, ' ').trim());
+  const num = (v) => { if (blank(v)) return null; const n = +String(v).replace(/[,  ]/g, ''); return isNaN(n) ? null : n; };
+  const iso = (v) => {
+    if (blank(v)) return '';
+    if (typeof v === 'number' && v > 20000 && v < 80000) return new Date(Math.round((v - 25569) * 86400000)).toISOString().slice(0, 10);
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(v).trim()); return m ? m[0] : '';
+  };
+  const STATUS = { ongoing: 'قيد التنفيذ', suspended: 'متوقف', completed: 'مكتمل', closed: 'مكتمل', 'not started': 'لم يبدأ', 'under handover': 'تحت التسليم' };
+
+  function findHeader(rows) {
+    for (let i = 0; i < Math.min(rows.length, 30); i++) if ((rows[i] || []).some((c) => norm(c) === 'projectid')) return i;
+    return -1;
+  }
+  function colMap(head) {
+    const m = {}; head.forEach((h, i) => { const k = norm(h); if (k && m[k] == null) m[k] = i; });
+    const starts = (p) => { const i = head.findIndex((h) => norm(h).startsWith(p)); return i < 0 ? null : i; };
+    return { exact: (k) => (m[k] == null ? null : m[k]), starts, head };
+  }
+
+  function parse(rows) {
+    const h = findHeader(rows);
+    if (h < 0) return { projects: [], headerRow: -1 };
+    const c = colMap(rows[h]), idC = c.exact('projectid'), nameC = c.exact('projectname');
+    const projects = [];
+    for (let r = h + 1; r < rows.length; r++) {
+      const row = rows[r] || [];
+      const id = txt(row[idC]), name = txt(row[nameC]);
+      if (!id && !name) continue;
+      projects.push({ id, name, row: r, status: txt(row[c.exact('status')]) });
+    }
+    return { projects, headerRow: h };
+  }
+
+  function toInfo(rows, rowIdx) {
+    const h = findHeader(rows), c = colMap(rows[h]), row = rows[rowIdx] || [];
+    const get = (i) => (i == null ? '' : row[i]);
+    const T = (k) => txt(get(c.exact(k))), TS = (p) => txt(get(c.starts(p))), N = (k) => num(get(c.exact(k))), NS = (p) => num(get(c.starts(p))), I = (k) => iso(get(c.exact(k)));
+    const info = {};
+    const set = (k, v) => { if (v !== '' && v != null) info[k] = v; };
+    set('projectNo', T('projectid')); set('po', T('pono'));
+    const st = T('status'); set('status', STATUS[st.toLowerCase()] || st);
+    set('region', T('region')); set('location', T('airportcode'));
+    set('contractor', T('contractor')); set('consultant', T('consultant'));
+    set('pm', T('c2pm')); set('planner', TS('pmcpcdschedule'));
+    set('contractStart', I('blstartdate')); set('contractFinish', I('blfinishdate'));
+    set('revisedFinish', I('revisedfinishdate')); set('forecastFinish', I('forecastfinishdate'));
+    set('originalValue', NS('originalcontractamountincl'));
+    set('risk', TS('mainconcernes')); set('mitigation', TS('mitigationplan'));
+    set('delayDamages', T('delaydamages'));
+    set('certified', NS('certifiedamountincl')); set('paid', NS('paidamountincl'));
+    set('stage', T('currentstage')); set('p5080', TS('p50p80'));
+    const pl = N('planned'), ac = N('actual'), sp = N('spi');
+    if (pl != null) set('plannedPct', Math.round(pl * 10000) / 100);
+    if (ac != null) set('actualPct', Math.round(ac * 10000) / 100);
+    if (sp != null) set('spiM', sp);
+    // أوامر التغيير المعتمدة VO_01..VO_21 (قيمة شاملة الضريبة + الأثر الزمني)
+    const vos = [];
+    for (let k = 1; k <= 30; k++) {
+      const kk = String(k).padStart(2, '0');
+      const ci = c.head.findIndex((x) => new RegExp('^vo_?' + kk + '\\s*cost impact.*includ', 'i').test(String(x).replace(/\s+/g, ' ').trim()));
+      const ti = c.head.findIndex((x) => new RegExp('^vo_?' + kk + '\\s*time impact', 'i').test(String(x).replace(/\s+/g, ' ').trim()));
+      if (ci < 0 && ti < 0) continue;
+      const cost = num(get(ci >= 0 ? ci : null)), days = num(get(ti >= 0 ? ti : null));
+      if ((cost || 0) !== 0 || (days || 0) !== 0) vos.push({ no: 'VO-' + k, desc: '', cost, days, status: 'معتمد', rec: '' });
+    }
+    info.vos = vos;
+    const cn = T('cornumber'), cc = num(get(c.starts('corcostimpact'))), cd = num(get(c.starts('cortimeimpact')));
+    info.cors = cn && cn !== '0' && !/^n\/?a$/i.test(cn) ? [{ no: 'COR-' + cn, desc: '', cost: cc, days: cd, status: 'تحت الدراسة', rec: '' }] : [];
+    const name = T('projectname');
+    const cur = c.head.some((x) => /\(SAR\)/i.test(String(x))) ? 'SAR' : '';
+    return { meta: name ? { name } : {}, currency: cur, info, summary: Object.keys(info).length };
+  }
+
+  PF.Master = { parse, toInfo, findHeader };
+  if (typeof module !== 'undefined' && module.exports) module.exports = PF.Master;
 })(typeof window !== 'undefined' ? window : globalThis);
 
 </script>
@@ -740,17 +1299,21 @@ table.t input[type=number] { text-align: center; }
   const D = PF.D, CPM = PF.CPM;
   const KEY = 'planflow.v1';
 
-  const DEFAULT_CALS = () => [
-    { id: 'cal1', name: 'أسبوع عمل الأردن (الأحد–الخميس)', workdays: [0, 1, 2, 3, 4], holidays: [] },
-  ];
+  const DEFAULT_CALS = () => {
+    const c = PF.Company && PF.Company.load();
+    const we = c ? c.weekend : [5, 6];
+    return [{ id: 'cal1', name: 'أسبوع العمل الأساسي', workdays: [0, 1, 2, 3, 4, 5, 6].filter((d) => !we.includes(d)), holidays: [] }];
+  };
 
   function normalize(s) {
     const t = D.today();
     s.meta = Object.assign({ name: 'مشروع جديد', code: '', client: '', currency: 'JOD', startDate: D.toIso(t), dataDate: D.toIso(t - 1), defaultCal: 'cal1', criticalFloat: 0, nearCritical: 5, activeBaseline: null }, s.meta || {});
     s.calendars = s.calendars && s.calendars.length ? s.calendars : DEFAULT_CALS();
     s.wbs = s.wbs || [];
+    PF.WBS.normalize(s);
     s.resources = s.resources || [];
-    s.materials = s.materials || [];
+    delete s.materials;
+    PF.Info.ensure(s);
     s.baselines = s.baselines || [];
     s.snapshots = s.snapshots || [];
     s.activities = s.activities || [];
@@ -770,24 +1333,55 @@ table.t input[type=number] { text-align: center; }
   const subs = new Set();
   let timer = null;
 
-  function recompute() { comp = CPM.run(state); }
+  let company = null;
+  // الحالة الفعلية للحساب: عطل الشركة تُضاف لكل تقويم (إلا إن عُطّل ذلك للتقويم)
+  function effective(S) {
+    if (!company || !company.holidays.length) return S;
+    const ch = company.holidays.map((h) => h.date);
+    return { ...S, calendars: S.calendars.map((c) => (c.useCompany === false ? c : { ...c, holidays: Array.from(new Set([...(c.holidays || []).map((x) => (typeof x === 'string' ? x : x.date)), ...ch])) })) };
+  }
+  function recompute() { comp = CPM.run(effective(state)); }
   function persist() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* التخزين ممتلئ */ } }
   function emit() { clearTimeout(timer); timer = setTimeout(() => subs.forEach((f) => f()), 0); }
 
   const Store = {
     init() {
+      company = PF.Company.load();
       let s = null;
       try { const raw = localStorage.getItem(KEY); if (raw) s = JSON.parse(raw); } catch (e) { s = null; }
+      Store.fresh = !s;
       state = normalize(s || PF.Sample.build());
       recompute();
     },
     get state() { return state; },
     get C() { return comp; },
+    get company() { return company; },
+    // تعديل إعدادات الشركة (تُحفظ منفصلة، لا تدخل في سجل التراجع)
+    setCompany(fn) {
+      const c = JSON.parse(JSON.stringify(company));
+      fn(c);
+      company = PF.Company.clean(c);
+      PF.Company.save(company);
+      recompute(); emit();
+    },
+    // خريطة العطل لتقويم معيّن: { رقم اليوم: اسم } للتظليل على الجدول
+    holidayMap(calId) {
+      const m = {};
+      const cal = state.calendars.find((c) => c.id === (calId || state.meta.defaultCal)) || state.calendars[0];
+      (cal.holidays || []).forEach((h) => { const d = typeof h === 'string' ? h : h.date; m[D.toNum(d)] = { name: 'عطلة التقويم', src: 'calendar' }; });
+      if (company && cal.useCompany !== false) company.holidays.forEach((h) => { m[D.toNum(h.date)] = { name: h.name, src: 'company' }; });
+      return m;
+    },
     subscribe(f) { subs.add(f); return () => subs.delete(f); },
     mutate(fn, label) {
       const before = JSON.stringify(state);
       try {
         fn(state);
+        // سجل التحديثات: مدخل صريح (label كائن) أو فرق تلقائي بين قبل وبعد
+        try {
+          const items = label && typeof label === 'object' ? [PF.Log.entry(label.type, label.title, label.detail, label.source)] : PF.Log.diff(JSON.parse(before), state);
+          if (items.length) PF.Log.push(state, items);
+        } catch (e) { console.warn('log', e); }
         undoS.push(before);
         if (undoS.length > 80) undoS.shift();
         redoS = [];
@@ -801,11 +1395,14 @@ table.t input[type=number] { text-align: center; }
         PF.toast('تعذّر تنفيذ العملية: ' + e.message, 'err');
       }
     },
-    undo() { if (!undoS.length) return; redoS.push(JSON.stringify(state)); state = JSON.parse(undoS.pop()); recompute(); persist(); emit(); },
-    redo() { if (!redoS.length) return; undoS.push(JSON.stringify(state)); state = JSON.parse(redoS.pop()); recompute(); persist(); emit(); },
+    undo() { if (!undoS.length) return; redoS.push(JSON.stringify(state)); const lg = state.log; state = JSON.parse(undoS.pop()); state.log = lg; PF.Log.push(state, [PF.Log.entry('other', 'تراجع عن آخر تعديل', [])]); recompute(); persist(); emit(); },
+    redo() { if (!redoS.length) return; undoS.push(JSON.stringify(state)); const lg = state.log; state = JSON.parse(redoS.pop()); state.log = lg; PF.Log.push(state, [PF.Log.entry('other', 'إعادة تعديل', [])]); recompute(); persist(); emit(); },
     get canUndo() { return undoS.length > 0; },
     get canRedo() { return redoS.length > 0; },
-    replace(s) { undoS = []; redoS = []; state = normalize(s); recompute(); persist(); emit(); },
+    // entry: مدخل سجل — عندها يُحتفظ بسجل المشروع الحالي ويُضاف إليه (لاستيراد ملف فوق مشروع قائم)
+    replace(s, entry) {
+      if (entry) { const old = (state && state.log) || []; s.log = (s.log && s.log.length ? s.log : old).slice(); PF.Log.push(s, [PF.Log.entry(entry.type, entry.title, entry.detail, entry.source)]); }
+      Store.fresh = false; undoS = []; redoS = []; state = normalize(s); recompute(); persist(); emit(); },
     reset() { Store.replace(PF.Sample.build()); },
     blank() {
       const start = D.toNum(D.toIso(D.today()));
@@ -821,6 +1418,7 @@ table.t input[type=number] { text-align: center; }
       });
     },
     persist,
+    fresh: false,
   };
   PF.Store = Store;
 
@@ -858,7 +1456,6 @@ table.t input[type=number] { text-align: center; }
   A.deleteActivity = (S, id) => {
     S.activities = S.activities.filter((a) => a.id !== id);
     S.activities.forEach((a) => (a.preds = a.preds.filter((p) => p.id !== id)));
-    S.materials.forEach((m) => { if (m.activityId === id) m.activityId = ''; });
     S.baselines.forEach((b) => delete b.data[id]);
   };
 
@@ -1011,24 +1608,22 @@ table.t input[type=number] { text-align: center; }
     if (!calendars.length) { calendars.push({ id: 'cal1', name: 'تقويم افتراضي (الاثنين–الجمعة)', workdays: [1, 2, 3, 4, 5], holidays: [] }); warn.push('لا توجد تقاويم في الملف؛ اعتُمد تقويم افتراضي.'); }
     const defCal = calendars.find((c) => c.id === 'c' + defCid) || calendars[0];
 
-    // WBS (نُبقي المجموعات التي فيها أنشطة، باسم المسار الكامل)
+    // WBS: نحافظ على الهرمية كاملة (أي عمق)
     const wbsRows = rows('PROJWBS').filter((w) => w.proj_id === proj.id);
     const wById = {};
     wbsRows.forEach((w) => { wById[w.wbs_id] = w; });
     const root = wbsRows.find((w) => w.proj_node_flag === 'Y');
-    const wpath = (w) => {
-      const names = []; let x = w, guard = 0;
-      while (x && x !== root && guard++ < 30) { names.unshift(x.wbs_name || x.wbs_short_name); x = wById[x.parent_wbs_id]; }
-      return names.join(' › ');
-    };
-    const wbsUsed = [];
-    const wbsIdOf = (t) => {
-      const w = wById[t.wbs_id];
-      if (!w || w === root) return 'w0';
+    const wbsMap = {};
+    const ensure = (w, guard) => {
+      if (!w || w === root || (guard || 0) > 60) return '';
       const id = 'w' + w.wbs_id;
-      if (!wbsUsed.find((x) => x.id === id)) wbsUsed.push({ id, name: wpath(w) || w.wbs_name, seq: +w.seq_num || 0 });
+      if (!wbsMap[id]) {
+        wbsMap[id] = { id, name: w.wbs_name || w.wbs_short_name || id, parent: '', seq: +w.seq_num || 0 };
+        wbsMap[id].parent = ensure(wById[w.parent_wbs_id], (guard || 0) + 1);
+      }
       return id;
     };
+    const wbsIdOf = (t) => ensure(wById[t.wbs_id]) || 'w0';
 
     // الأنشطة
     const idMap = {}, ids = new Set(), acts = [];
@@ -1110,8 +1705,8 @@ table.t input[type=number] { text-align: center; }
     if (resources.length) warn.push('سعة الموارد (الحد الأقصى) لا تأتي من XER؛ ضُبطت على 10 — عدّلها من صفحة الموارد.');
 
     // بيانات المشروع
-    const wbsList = wbsUsed.sort((a, b) => a.seq - b.seq).map(({ id, name }) => ({ id, name }));
-    if (acts.some((a) => a.wbs === 'w0')) wbsList.unshift({ id: 'w0', name: root ? root.wbs_name || 'عام' : 'عام' });
+    const wbsList = Object.values(wbsMap).sort((a, b) => a.seq - b.seq).map(({ id, name, parent }) => ({ id, name, parent }));
+    if (acts.some((a) => a.wbs === 'w0')) wbsList.unshift({ id: 'w0', name: root ? root.wbs_name || 'عام' : 'عام', parent: '' });
     const starts = acts.map((a) => a._p6.s).filter(Boolean).sort();
     const startIso = dpart(pr.plan_start_date) || starts[0] || D.toIso(D.today());
     let dd = dpart(pr.last_recalc_date) || dpart(pr.sum_data_date);
@@ -1124,7 +1719,8 @@ table.t input[type=number] { text-align: center; }
         name: (root && root.wbs_name) || proj.name, code: proj.name, client: '', currency: (cur && cur.curr_short_name) || 'JOD',
         startDate: startIso, dataDate: D.toIso(ddNum), defaultCal: defCal.id, criticalFloat: 0, nearCritical: 5, activeBaseline: null,
       },
-      calendars, wbs: wbsList, resources, activities: acts, materials: [], baselines: [], snapshots: [],
+      calendars, wbs: wbsList, resources, activities: acts, baselines: [], snapshots: [],
+      info: { projectNo: proj.name || '', contractStart: startIso, contractFinish: dpart(pr.scd_end_date) || dpart(pr.plan_end_date) || '', status: 'قيد التنفيذ' },
     };
     const p6 = {}; // نتائج P6 للمقارنة، ثم نحذفها من الأنشطة
     acts.forEach((a) => { p6[a.id] = a._p6; delete a._p6; });
@@ -1190,7 +1786,8 @@ table.t input[type=number] { text-align: center; }
       [[PROJ, S.meta.code || 'PRJ', defCid, 'Y', 'CP_Drtn', 'DT_FixedDUR2', 'CT_TotFloat', ddIso + ' 08:00', startIso + ' 08:00', today + ' 00:00']]);
 
     const wbsRows = [[ROOT, PROJ, 0, 'Y', 'WS_Open', S.meta.code || 'PRJ', S.meta.name, '']];
-    S.wbs.forEach((w, i) => wbsRows.push([wid[w.id], PROJ, i + 1, 'N', 'WS_Open', 'W' + (i + 1), w.name, ROOT]));
+    const codes = PF.WBS ? PF.WBS.codes(S) : {};
+    S.wbs.forEach((w, i) => wbsRows.push([wid[w.id], PROJ, i + 1, 'N', 'WS_Open', codes[w.id] || 'W' + (i + 1), w.name, w.parent && wid[w.parent] ? wid[w.parent] : ROOT]));
     table('PROJWBS', ['wbs_id', 'proj_id', 'seq_num', 'proj_node_flag', 'status_code', 'wbs_short_name', 'wbs_name', 'parent_wbs_id'], wbsRows);
 
     const bl = CPM.baselineOf(S);
@@ -1298,21 +1895,6 @@ table.t input[type=number] { text-align: center; }
     ['A660', 'تسليم المشروع', 'w6', 0, [['A650']], 0, []],
   ];
 
-  // [name, qty, unit, supplier, activity, approvalDays, leadDays, buffer, status, etaOffset(null|days relative to required)]
-  const MATS = [
-    ['حديد تسليح', 180, 'طن', 'مصنع الشرق للحديد', 'A310', 7, 14, 5, 'ordered', -6],
-    ['طوب وبلوك', 42000, 'قطعة', 'مصنع الأفق', 'A400', 3, 10, 2, 'shipped', -2],
-    ['ألمنيوم وزجاج الواجهات', 1, 'مجموعة', 'الشركة العربية للألمنيوم', 'A430', 14, 60, 14, 'approved', null],
-    ['مصاعد (عدد 2)', 2, 'مصعد', 'مورد المصاعد المعتمد', 'A530', 14, 120, 14, 'ordered', 18],
-    ['كوابل وأنابيب كهرباء', 1, 'مجموعة', 'مؤسسة النور', 'A500', 5, 21, 5, 'ordered', -9],
-    ['حجر الواجهات', 1800, 'م²', 'محاجر الجنوب', 'A440', 10, 45, 7, 'ordered', 7],
-    ['مضخات ومعدات مكافحة الحريق', 1, 'مجموعة', 'مؤسسة الأمان', 'A520', 14, 45, 10, 'submittal', null],
-    ['بلاط سيراميك وبورسلان', 3200, 'م²', 'سيراميك الأردن', 'A610', 10, 30, 7, 'submittal', null],
-    ['مولّد كهربائي وملحقاته', 1, 'مولّد', 'شركة الطاقة', 'A540', 14, 90, 14, 'planned', null],
-    ['دهانات داخلية وخارجية', 1, 'مجموعة', 'الجزيرة للدهانات', 'A600', 3, 14, 5, 'planned', null],
-    ['أبواب خشبية', 96, 'باب', 'نجارة المدينة', 'A620', 7, 45, 7, 'approved', null],
-  ];
-
   function build() {
     const S = {
       meta: { name: 'مبنى سكني — 4 طوابق (تجريبي)', code: 'PRJ-001', client: 'مالك المشروع', currency: 'JOD', startDate: '2026-06-14', dataDate: '2026-06-13', defaultCal: 'cal1', criticalFloat: 0, nearCritical: 5, activeBaseline: null },
@@ -1320,7 +1902,11 @@ table.t input[type=number] { text-align: center; }
         { id: 'cal1', name: 'أسبوع عمل الأردن (الأحد–الخميس)', workdays: [0, 1, 2, 3, 4], holidays: ['2026-12-25', '2027-01-01', '2027-05-01', '2027-05-25'] },
         { id: 'cal2', name: 'أعمال الموقع (6 أيام: السبت–الخميس)', workdays: [6, 0, 1, 2, 3, 4], holidays: ['2026-12-25', '2027-01-01', '2027-05-01', '2027-05-25'] },
       ],
-      wbs: WBS.map(([id, name]) => ({ id, name })),
+      wbs: WBS.map(([id, name]) => ({ id, name, parent: '' })).concat([
+        { id: 'w31', name: 'الطابق الأرضي', parent: 'w3' }, { id: 'w32', name: 'الطابق الأول', parent: 'w3' },
+        { id: 'w33', name: 'الطابق الثاني', parent: 'w3' }, { id: 'w34', name: 'الطابق الثالث والسقف', parent: 'w3' },
+      ]),
+      info: { projectNo: 'PRJ-001', po: 'PO-2026-118', status: 'قيد التنفيذ', region: 'عمّان', location: 'ضاحية الأمير راشد', contractor: 'شركة البناء المتحدة', consultant: 'مكتب الرؤية الهندسي', pm: 'م. أحمد', stage: 'الأعمال المعمارية والكهروميكانيك', contractStart: '2026-06-14', contractFinish: '2027-05-20', originalValue: 2900000, contractType: 'Re-Measured', certified: 1080000, paid: 1030000, updates: 'الجدول: أعمال الهيكل تسير ضمن الخطة. بانتظار اعتماد COR-1.', vos: [{ no: 'VO-1', desc: 'إضافة غرفة خدمات', cost: 42000, days: 5, status: 'معتمد' }], cors: [{ no: 'COR-1', desc: 'تعديل الواجهات', cost: 180000, days: 20, status: 'تحت الدراسة', rec: '2026-09-20' }], ipcs: [{ no: 'IPC-4', amount: 95000, kind: 'unpaid', d1: '2026-10-05', d2: '' }, { no: 'IPC-5', amount: 120000, kind: 'forecast', d1: '2026-11-10', d2: '2026-11-12' }] },
       resources: RES.map(([id, name, type, max, rate]) => ({ id, name, type, max, rate })),
       activities: ACTS.map(([id, name, wbs, dur, preds, budget, res, cal]) => ({
         id, name, wbs, dur, type: dur === 0 ? 'milestone' : 'task', cal: cal || '', constraint: null, pct: 0,
@@ -1328,9 +1914,11 @@ table.t input[type=number] { text-align: center; }
         preds: preds.map(([pid, type, lag]) => ({ id: pid, type: type || 'FS', lag: lag || 0 })),
         resources: res.map(([rid, perDay]) => ({ rid, perDay })),
       })),
-      materials: [], baselines: [], snapshots: [],
+      baselines: [], snapshots: [],
     };
     const byId = (id) => S.activities.find((a) => a.id === id);
+    const fl = { A300: 'w31', A310: 'w32', A320: 'w33', A330: 'w34', A340: 'w34' };
+    Object.keys(fl).forEach((k) => { byId(k).wbs = fl[k]; });
 
     // 1) خط الأساس الأصلي (قبل أي تأخير)
     let C = CPM.run(S);
@@ -1361,14 +1949,7 @@ table.t input[type=number] { text-align: center; }
     });
     C = CPM.run(S);
 
-    // 4) المواد (التواريخ نسبة للمطلوب بالموقع)
-    S.materials = MATS.map(([name, qty, unit, supplier, activityId, approvalDays, leadDays, bufferDays, status, off], i) => {
-      const r = C.byId[activityId];
-      const req = r.s - bufferDays;
-      return { id: 'M' + (i + 1), name, qty, unit, supplier, activityId, approvalDays, leadDays, bufferDays, status, eta: off == null ? '' : D.toIso(req + off), notes: '' };
-    });
-
-    // 5) سجل فترات التحديث (لمنحنى الإنجاز الفعلي)
+    // 4) سجل فترات التحديث (لمنحنى الإنجاز الفعلي)
     const bl = S.baselines[0];
     const entries = Object.values(bl.data).map((e) => ({ cal: C.cals[e.cal] || C.defCal, s: e.s, f: e.f, dur: e.dur, budget: e.budget }));
     const now = CPM.evm(S, C);
@@ -1476,7 +2057,7 @@ table.t input[type=number] { text-align: center; }
 
 </script>
   <script>
-/* PlanFlow — لوحة المشروع */
+/* PlanFlow — الداشبورد التنفيذي */
 (function (g) {
   const PF = g.PF;
   const D = PF.D, esc = PF.esc, CPM = PF.CPM;
@@ -1484,20 +2065,36 @@ table.t input[type=number] { text-align: center; }
   function kpi(l, v, s, tone, extra) {
     return `<div class="card kpi ${tone || 'neutral'}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s || ''}</div>${extra || ''}</div>`;
   }
+  // دونات: الفعلي (حلقة ملونة) مقابل المخطط (علامة)
+  function donut(act, plan, size) {
+    const R = 52, Cc = 2 * Math.PI * R, a = Math.max(0, Math.min(1, act));
+    const ang = plan == null ? null : plan * 2 * Math.PI - Math.PI / 2;
+    return `<svg viewBox="0 0 140 140" width="${size || 140}" height="${size || 140}" role="img" aria-label="الإنجاز الفعلي ${Math.round(a * 100)}%">
+      <circle cx="70" cy="70" r="${R}" fill="none" stroke="var(--line2)" stroke-width="16"/>
+      <circle cx="70" cy="70" r="${R}" fill="none" stroke="var(--ok)" stroke-width="16" stroke-dasharray="${a * Cc} ${Cc}" transform="rotate(-90 70 70)"/>
+      ${ang == null ? '' : `<line x1="${70 + (R - 11) * Math.cos(ang)}" y1="${70 + (R - 11) * Math.sin(ang)}" x2="${70 + (R + 11) * Math.cos(ang)}" y2="${70 + (R + 11) * Math.sin(ang)}" stroke="var(--ink)" stroke-width="3"/>`}
+      <text x="70" y="76" text-anchor="middle" font-size="24" font-weight="600" fill="var(--ink)">${Math.round(a * 100)}%</text></svg>`;
+  }
 
   function render(root) {
-    const S = PF.Store.state, C = PF.Store.C;
-    const M = PF.Calc.metrics(S, C);
-    const e = M.evm;
-    const cur = S.meta.currency;
-    const wd = (n) => (n == null ? '' : n === 0 ? 'في الموعد' : n > 0 ? `تأخير ${n} يوم عمل` : `تقدّم ${-n} يوم عمل`);
-    const finVarTone = M.finishVar == null ? 'neutral' : M.finishVar > 10 ? 'bad' : M.finishVar > 0 ? 'warn' : 'good';
-    const spiTone = e.spi == null ? 'neutral' : e.spi < 0.9 ? 'bad' : e.spi < 1 ? 'warn' : 'good';
-    const cpiTone = e.cpi == null ? 'neutral' : e.cpi < 0.9 ? 'bad' : e.cpi < 1 ? 'warn' : 'good';
-
+    const S = PF.Store.state, C = PF.Store.C, info = S.info;
+    const M = PF.Calc.metrics(S, C), e = M.evm, cur = S.meta.currency;
+    const dd = D.toNum(S.meta.dataDate) + 1;
+    const bl0 = CPM.baselineOf(S), fin = PF.Info.fin(S), hasN = (v) => v !== '' && v != null;
+    const cs = D.toNum(info.contractStart || S.meta.startDate);
+    const cfIso = info.revisedFinish || info.contractFinish;
+    const cf = cfIso ? D.toNum(cfIso) : null;
+    const hasSched = !!bl0 || S.activities.length > 3;
+    const forecast = hasSched ? M.finishLast : (info.forecastFinish ? D.toNum(info.forecastFinish) : null);
+    const elapsed = cf && cf > cs ? Math.max(0, Math.min(1, (dd - cs) / (cf - cs))) : null;
+    const slip = cf != null && forecast != null ? forecast - cf : null; // أيام تقويمية
+    const open = S.activities.map((a) => C.byId[a.id]).filter((r) => r.status !== 'complete');
+    const minTf = open.length ? Math.min(...open.map((r) => r.tf)) : null;
+    const spiTone0 = 0;
+    const sm = PF.Info.summary(S, C);
     const bl = CPM.baselineOf(S);
-    // S-curve مصغّرة
-    const t0 = D.toNum(S.meta.startDate), t1 = M.finish;
+
+    const t0 = cs, t1 = Math.max(forecast || 0, cf || 0, cs + 30);
     let mini = '<div class="empty"><b>لا يوجد خط أساس</b>احفظ خط أساس من صفحة «خط الأساس» لتظهر مقارنة الإنجاز.</div>';
     if (bl) {
       const ent = (src) => S.activities.map((a) => {
@@ -1508,48 +2105,99 @@ table.t input[type=number] { text-align: center; }
       const pv = CPM.curve(ent('bl'), t0, t1, step), fc = CPM.curve(ent('cur'), t0, t1, step);
       const act = S.snapshots.map((s) => [D.toNum(s.date) + 1, s.ev]);
       mini = PF.Charts.lines({
-        h: 300, label: 'منحنى S', xmin: t0, xmax: t1 + step, vlines: [{ x: D.toNum(S.meta.dataDate) + 1, label: 'تاريخ البيانات', color: '#d9482b' }],
+        h: 280, label: 'منحنى S', xmin: t0, xmax: t1 + step, vlines: [{ x: dd, label: 'تاريخ البيانات', color: '#d9482b' }],
         series: [
           { name: 'المخطط (خط الأساس)', color: '#8a97a3', pts: pv, width: 2 },
           { name: 'المتوقع حالياً', color: '#3a64c8', pts: fc, dash: '6 4' },
-          { name: 'المنجز فعلياً (EV)', color: '#1e8f63', pts: act, dots: true, width: 2.6 },
+          { name: 'المنجز فعلياً', color: '#1e8f63', pts: act, dots: true, width: 2.6 },
         ],
       });
     }
 
     const crit = C.order.map((id) => ({ a: S.activities.find((x) => x.id === id), r: C.byId[id] })).filter((x) => x.r.critical).sort((a, b) => a.r.s - b.r.s);
-    const upcoming = S.activities.map((a) => ({ a, r: C.byId[a.id] })).filter((x) => x.r.status !== 'complete' && x.r.s <= D.toNum(S.meta.dataDate) + 15).sort((a, b) => a.r.s - b.r.s).slice(0, 7);
-    const matAlerts = M.mats.filter((x) => x.health === 'late' || x.health === 'risk').sort((a, b) => (a.health === 'late' ? 0 : 1) - (b.health === 'late' ? 0 : 1) || (b.delta || 0) - (a.delta || 0)).slice(0, 6);
+    const upcoming = S.activities.map((a) => ({ a, r: C.byId[a.id] })).filter((x) => x.r.status !== 'complete' && x.r.s <= dd + 14).sort((a, b) => a.r.s - b.r.s).slice(0, 7);
     const quality = CPM.qualityChecks(S, C);
     const st = M.cnt;
+    const sum = (L, f) => L.filter(f).reduce((t, x) => t + (+x.cost || 0), 0);
+    const sumD = (L, f) => L.filter(f).reduce((t, x) => t + (+x.days || 0), 0);
+    const apv = (x) => x.status === 'معتمد';
+    const rev = info.revisedFinish || info.contractFinish, revN = rev ? D.toNum(rev) : null;
+    const dayD = (a, b) => b - a;
+    const fmtD = (iso) => (iso ? D.fmt(D.toNum(iso)) : '—');
+    const remaining = forecast == null ? null : Math.max(0, forecast - (dd - 1));
+    const fdelay = revN != null && forecast != null ? Math.max(0, forecast - revN) : null;
+    const nApproved = info.vos.filter(apv).length, nOngoing = info.vos.filter((x) => !apv(x) && x.status !== 'مرفوض').length;
+    const pp = M.pctPlanned != null ? M.pctPlanned : (hasN(info.plannedPct) ? info.plannedPct / 100 : null), ap = (!bl0 && hasN(info.actualPct)) ? info.actualPct / 100 : M.pctActual, spiV = e.spi != null ? e.spi : (hasN(info.spiM) ? +info.spiM : null), varp = pp == null ? null : ap - pp, lag = pp == null ? 0 : Math.max(0, (pp - ap) * 100);
+    const stat = pp == null ? ['بلا خط أساس', '#8a97a3'] : lag <= 10 ? ['في الموعد', '#1e8f63'] : lag <= 20 ? ['متأخر', '#e0a020'] : ['متعثّر', '#d9482b'];
+    const tile = (l, v) => `<div class="itile"><span>${l}</span><b class="num">${v}</b></div>`;
+    const cv = +info.originalValue || 0, hasFin = cv > 0 || fin.certified > 0 || info.ipcs.length;
+    const dnut = (v, lbl) => `<div style="text-align:center">${donut(Math.min(1, v), null, 92)}<div class="t-mut" style="font-size:12px">${lbl}</div></div>`;
+    const unpaid = info.ipcs.filter((x) => x.kind === 'unpaid'), fcast = info.ipcs.filter((x) => x.kind === 'forecast');
+    const ipcTbl = (L, h1, h2, cols) => `<div class="card"><h3>${h1}</h3><div class="tw"><table class="t"><thead><tr><th>الرقم</th><th class="n">المبلغ</th>${cols.map((c) => `<th>${c}</th>`).join('')}</tr></thead><tbody>
+      ${L.map((x) => `<tr><td>${esc(x.no)}</td><td class="n num">${PF.num(x.amount)}</td>${h2(x)}</tr>`).join('') || '<tr><td colspan="4"><div class="empty">لا يوجد.</div></td></tr>'}
+      <tr><td><b>الإجمالي</b></td><td class="n num"><b>${PF.num(L.reduce((t, x) => t + (+x.amount || 0), 0))}</b></td><td colspan="2"></td></tr></tbody></table></div></div>`;
+    const pend = info.cors.filter((x) => !apv(x) && x.status !== 'مرفوض');
+    const people = [['المقاول', info.contractor], ['الاستشاري', info.consultant], ['مدير المشروع', info.pm], ['المخطط', info.planner]].filter((x) => x[1]);
+    const lead = (txt) => (txt ? `<div dir="auto" style="white-space:pre-wrap">${esc(txt)}</div>` : '<span class="t-mut">لم تُدخل بعد</span>');
 
     root.innerHTML = `
       ${C.project.errors.length ? '<div class="note bad">يوجد حلقة مغلقة في علاقات الجدول — الحسابات غير دقيقة حتى تُصلح العلاقات.</div>' : ''}
-      <div class="pagehead"><div><h2>${esc(S.meta.name)}</h2><div class="sub" style="margin:2px 0 0">${esc(S.meta.code)} ${S.meta.client ? '· ' + esc(S.meta.client) : ''} · بداية المشروع ${D.fmtLong(D.toNum(S.meta.startDate))}</div></div></div>
-      <div class="grid g6" style="margin-bottom:14px">
-        ${kpi('الإنجاز الفعلي', PF.pct(M.pctActual, 1), M.pctPlanned != null ? `المخطط ${PF.ltr(PF.pct(M.pctPlanned, 1))}` : 'لا يوجد خط أساس', M.pctPlanned != null && M.pctActual < M.pctPlanned - 0.03 ? 'warn' : 'good',
-          `<div class="bar-track"><i style="width:${M.pctActual * 100}%"></i>${M.pctPlanned != null ? `<b style="left:${M.pctPlanned * 100}%" title="المخطط"></b>` : ''}</div>`)}
-        ${kpi('الانتهاء المتوقع', `<span style="font-size:20px">${D.fmtLong(M.finishLast)}</span>`, M.finishVar != null ? `<span class="${M.finishVar > 0 ? 't-bad' : 't-good'}">${wd(M.finishVar)}</span>` : '', finVarTone)}
-        ${kpi('أداء الجدول SPI', e.spi == null ? '—' : e.spi.toFixed(2), e.spi == null ? '' : `فرق الجدول ${PF.ltr(PF.compact(e.sv))} ${cur}`, spiTone)}
-        ${kpi('أداء التكلفة CPI', e.cpi == null ? '—' : e.cpi.toFixed(2), e.cpi == null ? '' : `فرق التكلفة ${PF.ltr(PF.compact(e.cv))} ${cur}`, cpiTone)}
+      <div class="pagehead"><div><h2>${esc(S.meta.name)} <span class="tag info">${esc(info.status || '')}</span></h2>
+        <div class="sub" style="margin:2px 0 0">${[info.projectNo || S.meta.code, info.po && 'PO ' + info.po, info.region, info.location].filter(Boolean).map(esc).join(' · ')}${people.length ? '<br>' + people.map((p) => p[0] + ': ' + esc(p[1])).join(' · ') : ''}${info.stage ? '<br>المرحلة: ' + esc(info.stage) : ''}</div></div>
+        <span class="sp"></span>${sm.missing ? `<a class="tag risk" href="#/checklist" style="text-decoration:none">${sm.missing} بنداً ناقصاً في قائمة التحقق</a>` : '<span class="tag ok">قائمة التحقق مكتملة</span>'}</div>
+
+      <div class="grid g3 dtop" style="margin-bottom:14px;align-items:stretch">
+        <div class="card"><h3>معلومات المشروع</h3><div class="grid g2" style="gap:8px">
+          ${tile('تاريخ البداية', fmtD(info.contractStart || S.meta.startDate))}${tile('المدة المتبقية (يوم)', remaining == null ? '—' : remaining)}
+          ${tile('النهاية المعدّلة', fmtD(rev))}${tile('النهاية المتوقعة', forecast == null ? '—' : D.fmt(forecast))}
+          ${tile('المدة المعدّلة (يوم)', revN ? revN - cs + 1 : '—')}${tile('التأخير المتوقع (يوم)', fdelay == null ? '—' : fdelay)}
+          ${tile('أوامر التغيير المعتمدة', nApproved)}${tile('جارية / قادمة', nOngoing)}</div></div>
+        <div class="card"><h3>تقدّم المشروع<span class="sp"></span><span class="sub" style="margin:0">SPI <b class="num">${spiV == null ? '—' : spiV.toFixed(2)}</b></span></h3>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:12px;height:12px;border-radius:50%;background:${stat[1]}"></span><b>${stat[0]}</b></div><div class="t-mut" style="font-size:11.5px;margin-bottom:4px">≤10% في الموعد · 10–20% متأخر · أكثر من 20% متعثّر</div>
+          <div class="pbars">${[['المخطط', pp, '#1b5e63'], ['الفعلي', ap, '#4bbac4'], ['الفرق', varp, varp != null && varp < 0 ? '#d9482b' : '#1e8f63']].map(([l, v, c]) => `<div class="pb"><b class="num">${v == null ? '—' : (v * 100).toFixed(2) + '%'}</b><i style="height:${v == null ? 0 : Math.max(3, Math.abs(v) * 150)}px;background:${c}"></i><span>${l}</span></div>`).join('')}</div></div>
+        <div class="card"><h3>المالية${hasFin ? '' : ' <span class="t-mut" style="font-size:12px">(غير مُدخلة)</span>'}</h3>${hasFin ? `<div><div style="display:flex;gap:18px;justify-content:center;margin-bottom:10px">${cv ? dnut(fin.certified / cv, '% معتمد') + dnut(fin.paid / cv, '% مدفوع') : ''}</div><div class="grid g2" style="gap:8px">
+          <div class="t-mut" style="font-size:12px">قيمة العقد${info.contractType ? ' — ' + esc(info.contractType) : ''}</div><b class="num" style="font-size:19px">${PF.num(cv)}</b>
+          <div class="t-mut" style="font-size:12px;margin-top:6px">أوامر التغيير المعتمدة</div><b class="num">${PF.num(sum(info.vos, apv))}</b>
+          <div class="t-mut" style="font-size:12px;margin-top:6px">المعتمد حتى تاريخه</div><b class="num">${PF.num(fin.certified)}</b>
+          <div class="t-mut" style="font-size:12px;margin-top:6px">المدفوع حتى تاريخه</div><b class="num">${PF.num(fin.paid)}</b></div></div></div>` : '<div class="empty">أدخلها من «بيانات المشروع» إن رغبتم.</div>'}</div>
+      </div>
+      <div class="grid g4" style="margin-bottom:14px">
+        ${kpi('Total Float للمشروع', minTf == null ? '—' : minTf, minTf == null ? '' : minTf < 0 ? '<span class="t-bad">سالب</span>' : minTf === 0 ? 'لا هامش — المسار الحرج مشدود' : 'أيام عمل', minTf == null ? 'neutral' : minTf < 0 ? 'bad' : minTf <= 5 ? 'warn' : 'good')}
+        ${kpi('الزمن المنقضي من العقد', elapsed == null ? '—' : PF.pct(elapsed, 0), cf ? `${D.fmt(cs)} ← ${D.fmt(cf)}` : 'أدخل نهاية العقد', elapsed != null && M.pctActual < elapsed - 0.05 ? 'warn' : 'neutral', elapsed == null ? '' : `<div class="bar-track"><i style="width:${elapsed * 100}%;background:var(--ink)"></i></div>`)}
+        ${kpi('الانتهاء المتوقع مقابل العقد', slip == null ? '—' : slip > 0 ? `+${slip}` : slip, slip == null ? '' : slip > 0 ? '<span class="t-bad">يوم بعد نهاية العقد</span>' : '<span class="t-good">يوم قبل/عند نهاية العقد</span>', slip == null ? 'neutral' : slip > 14 ? 'bad' : slip > 0 ? 'warn' : 'good')}
         ${kpi('الأنشطة الحرجة', M.crit, M.neg ? `<span class="t-bad">${M.neg} بـ Float سالب</span>` : 'لا Float سالب', M.neg ? 'bad' : 'neutral')}
-        ${kpi('المواد', M.matLate + M.matRisk, M.matLate || M.matRisk ? `<span class="t-bad">${M.matLate} متأخرة</span> · <span class="t-warn">${M.matRisk} معرّضة</span>` : 'كلها ضمن الجدول', M.matLate ? 'bad' : M.matRisk ? 'warn' : 'good')}
+      </div>
+      ${info.ipcs.length || pend.length ? `<div class="grid g3" style="margin-bottom:14px;align-items:start">
+        ${ipcTbl(unpaid, 'دفعات معتمدة غير مدفوعة', (x) => `<td>${fmtD(x.d1)}</td><td class="num">${x.d1 ? dd - 1 - D.toNum(x.d1) : '—'}</td>`, ['اعتُمدت في', 'مدة (يوم)'])}
+        ${ipcTbl(fcast, 'دفعات متوقعة', (x) => `<td>${fmtD(x.d1)}</td><td>${fmtD(x.d2)}</td>`, ['تقديم متوقع', 'للمالك'])}
+        <div class="card"><h3>طلبات تغيير قيد الاعتماد</h3><div class="tw"><table class="t"><thead><tr><th>الرقم</th><th class="n">التكلفة</th><th class="n">الأثر (يوم)</th><th>التوصية</th><th class="n">منقضي</th><th>الحالة</th></tr></thead><tbody>
+          ${pend.map((x) => `<tr><td>${esc(x.no)}</td><td class="n num">${PF.num(x.cost)}</td><td class="n num">${x.days || '—'}</td><td>${fmtD(x.rec)}</td><td class="n num">${x.rec ? dd - 1 - D.toNum(x.rec) : '—'}</td><td>${esc(x.status)}</td></tr>`).join('') || '<tr><td colspan="6"><div class="empty">لا يوجد.</div></td></tr>'}</tbody></table></div></div></div>` : ''}
+      <div class="card" style="margin-bottom:14px"><h3>التحديثات والمخاطر والملاحظات<span class="sp"></span><a class="link" href="#/projectdata">تعديل</a></h3>${lead(info.updates)}${info.risk ? `<div class="sub" style="margin:10px 0 4px">أهم المخاطر</div>${lead(info.risk)}` : ''}${info.mitigation ? `<div class="sub" style="margin:10px 0 4px">إجراءات المعالجة</div>${lead(info.mitigation)}` : ''}</div>
+      <div class="grid g3" style="margin-bottom:14px">
+        ${kpi('أداء الجدول SPI', spiV == null ? '—' : spiV.toFixed(2), spiV == null ? 'يحتاج خط أساس' : 'مُقاس بالميزانية/الوزن المدخل', (spiV == null ? 'neutral' : spiV < 0.9 ? 'bad' : spiV < 1 ? 'warn' : 'good'))}
+        ${kpi('أنشطة متأخرة عن الأساس', M.late, `${st.complete} مكتملة · ${st.inprogress} جارية · ${st.notstarted} لم تبدأ`, M.late ? 'warn' : 'good')}
+        ${kpi('تاريخ البيانات', `<span style="font-size:20px">${D.fmtLong(D.toNum(S.meta.dataDate))}</span>`, 'آخر تحديث للتقدّم', 'neutral')}
       </div>
       <div class="grid g21" style="margin-bottom:14px">
         <div class="card"><h3>الإنجاز مقابل المخطط (منحنى S)<span class="sp"></span><a class="link" href="#/scurve">التفاصيل</a></h3>${mini}</div>
+        <div class="card"><h3>التغييرات التعاقدية<span class="sp"></span><a class="link" href="#/projectdata">إدارة</a></h3>
+          <div class="qrow"><b style="flex:1">أوامر التغيير VO</b><span class="num">${info.vos.length}</span></div>
+          <div class="sub" style="margin:0 0 8px">معتمد: ${PF.num(sum(info.vos, apv))} ${esc(cur)} · ${sumD(info.vos, apv)} يوم · المعلّق: ${PF.num(sum(info.vos, (x) => !apv(x) && x.status !== 'مرفوض'))}</div>
+          <div class="qrow"><b style="flex:1">طلبات التغيير COR</b><span class="num">${info.cors.length}</span></div>
+          <div class="sub" style="margin:0 0 8px">معتمد: ${PF.num(sum(info.cors, apv))} ${esc(cur)} · ${sumD(info.cors, apv)} يوم · المعلّق: ${PF.num(sum(info.cors, (x) => !apv(x) && x.status !== 'مرفوض'))}</div>
+          ${info.originalValue ? `<div class="qrow"><span style="flex:1">قيمة العقد الأصلية</span><b class="num">${PF.num(info.originalValue)} ${esc(cur)}</b></div>` : ''}
+          ${info.delayDamages ? `<div class="qrow"><span style="flex:1">غرامات التأخير</span><b dir="auto">${esc(info.delayDamages)}</b></div>` : ''}</div>
+      </div>
+      <div style="margin-bottom:14px">
         <div class="card"><h3>حالة الأنشطة</h3>
           ${PF.Charts.stack([{ v: st.complete, color: '#1e8f63', label: 'مكتملة' }, { v: st.inprogress, color: '#3a64c8', label: 'قيد التنفيذ' }, { v: st.notstarted, color: '#d9dedc', label: 'لم تبدأ' }])}
           <div class="qrow"><span class="sdot done"></span> مكتملة <b style="margin-inline-start:auto">${st.complete}</b></div>
           <div class="qrow"><span class="sdot" style="background:var(--bar)"></span> قيد التنفيذ <b style="margin-inline-start:auto">${st.inprogress}</b></div>
-          <div class="qrow"><span class="sdot" style="background:var(--line)"></span> لم تبدأ <b style="margin-inline-start:auto">${st.notstarted}</b></div>
-          <div class="qrow"><span class="sdot crit"></span> متأخرة عن خط الأساس <b style="margin-inline-start:auto">${M.late}</b></div>
-        </div>
+          <div class="qrow"><span class="sdot" style="background:var(--line)"></span> لم تبدأ <b style="margin-inline-start:auto">${st.notstarted}</b></div></div>
       </div>
-      <div class="grid g4">
+      <div class="grid g3">
         <div class="card"><h3>المسار الحرج (${crit.length})<span class="sp"></span><a class="link" href="#/schedule" data-crit>عرض في الجدول</a></h3>
           ${crit.length ? crit.slice(0, 10).map(({ a, r }) => `<div class="qrow"><span class="sdot crit"></span><span style="flex:1" dir="auto">${esc(a.name)}</span><span class="t-mut num">${D.fmt(r.s)}</span></div>`).join('') + (crit.length > 10 ? `<div class="sub" style="margin:8px 0 0">+${crit.length - 10} أنشطة أخرى</div>` : '') : '<div class="empty">لا توجد أنشطة حرجة.</div>'}</div>
-        <div class="card"><h3>مواد تحتاج متابعة<span class="sp"></span><a class="link" href="#/materials">كل المواد</a></h3>
-          ${matAlerts.length ? matAlerts.map((x) => `<div class="qrow"><span class="tag ${x.health}">${x.health === 'late' ? 'متأخرة' : 'معرّضة'}</span><span style="flex:1" dir="auto">${esc(x.m.name)}${x.critical ? ' <span class="tag crit" title="تؤثر على مسار حرج">حرج</span>' : ''}<div class="t-mut" style="font-size:12px">${esc(x.reason)} — ${x.a ? esc(x.a.name) : ''}</div></span></div>`).join('') : '<div class="empty"><b>كل المواد ضمن الجدول</b></div>'}</div>
         <div class="card"><h3>القادم خلال أسبوعين</h3>
           ${upcoming.length ? upcoming.map(({ a, r }) => `<div class="qrow"><span class="sdot ${r.critical ? 'crit' : r.status === 'inprogress' ? '' : 'done'}" style="${r.status === 'inprogress' ? 'background:var(--bar)' : ''}"></span><span style="flex:1" dir="auto">${esc(a.name)}<div class="t-mut" style="font-size:12px">${r.status === 'inprogress' ? 'قيد التنفيذ · ' + (a.pct || 0) + '%' : 'يبدأ ' + D.fmt(r.s)}</div></span><span class="tag ${r.tf < 0 ? 'late' : 'none'} num" title="Float">${r.tf}</span></div>`).join('') : '<div class="empty">لا أنشطة قادمة.</div>'}</div>
         <div class="card"><h3>فحص جودة الجدول</h3>
@@ -1563,13 +2211,433 @@ table.t input[type=number] { text-align: center; }
 
 </script>
   <script>
+/* PlanFlow — إدارة هيكل WBS: شجرة بعمق غير محدود (إضافة، إزاحة، نقل، حذف) */
+(function (g) {
+  const PF = g.PF;
+  const esc = PF.esc;
+  let sel = null;
+
+  function render(root) {
+    const S = PF.Store.state, C = PF.Store.C;
+    const flat = PF.WBS.flat(S);
+    const codes = PF.WBS.codes(S);
+    const orphan = S.activities.filter((a) => !S.wbs.some((w) => w.id === a.wbs)).length;
+    const maxDepth = flat.reduce((m, x) => Math.max(m, x.depth + 1), 0);
+    if (sel && !PF.WBS.byId(S, sel)) sel = null;
+    const selW = sel && PF.WBS.byId(S, sel);
+
+    const rowHtml = flat.map((x) => {
+      const ru = PF.WBS.rollup(S, C, x.w.id, null);
+      const direct = S.activities.filter((a) => a.wbs === x.w.id).length;
+      return `<div class="wrow ${sel === x.w.id ? 'sel' : ''}" data-w="${esc(x.w.id)}">
+        <span class="wcode num">${esc(codes[x.w.id])}</span>
+        <span class="wname" style="padding-inline-start:${x.depth * 22}px">
+          <span class="wdot ${x.hasKids ? 'par' : ''}"></span>
+          <input class="cell-in" dir="auto" value="${esc(x.w.name)}" data-rename="${esc(x.w.id)}" data-fkey="w:${esc(x.w.id)}">
+        </span>
+        <span class="wcnt" title="أنشطة مباشرة / الكل">${direct}${ru.n !== direct ? ' / ' + ru.n : ''}</span></div>`;
+    }).join('');
+
+    root.innerHTML = `
+      <div class="pagehead"><div><h2>هيكل تقسيم العمل (WBS)</h2>
+        <div class="sub" style="margin:2px 0 0">أنشئ مستويات بقدر ما تحتاج: اختر عنصراً ثم أضف تحته عنصراً فرعياً، أو أزحه لليمين ليصبح ابناً لما فوقه. الأنشطة تُسند لأي مستوى.</div></div>
+        <span class="sp"></span>
+        <button class="btn primary" data-act="addroot">${PF.icon('plus')} عنصر في المستوى الأول</button></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="wtool no-print">
+          <button class="btn" data-act="child" ${selW ? '' : 'disabled'}>${PF.icon('plus', 15)} عنصر فرعي</button>
+          <button class="btn" data-act="sib" ${selW ? '' : 'disabled'}>${PF.icon('plus', 15)} عنصر بنفس المستوى</button>
+          <span class="vsep"></span>
+          <button class="btn" data-act="indent" ${selW ? '' : 'disabled'} title="يصبح ابناً للعنصر الذي فوقه">إزاحة ←</button>
+          <button class="btn" data-act="outdent" ${selW && selW.parent ? '' : 'disabled'} title="يصبح بنفس مستوى أبيه">→ إرجاع</button>
+          <button class="btn" data-act="up" ${selW ? '' : 'disabled'}>↑ أعلى</button>
+          <button class="btn" data-act="down" ${selW ? '' : 'disabled'}>↓ أسفل</button>
+          <span class="vsep"></span>
+          <button class="btn" data-act="del" ${selW ? '' : 'disabled'}>${PF.icon('trash', 15)} حذف</button>
+          <span class="sp"></span>
+          <span class="t-mut" style="font-size:12.5px">${flat.length} عنصر · ${maxDepth} مستوى${orphan ? ' · <b class="t-warn">' + orphan + ' نشاط بلا مجموعة</b>' : ''}</span>
+        </div>
+        <div class="wtree">${rowHtml || '<div class="empty"><b>لا يوجد هيكل WBS</b>ابدأ بإضافة عنصر في المستوى الأول (مثلاً: الأعمال المدنية، الميكانيك، الكهرباء).</div>'}</div>
+        ${selW ? `<div class="sub" style="margin:10px 0 0">المسار: ${esc(PF.WBS.path(S, sel))}</div>` : ''}
+      </div>`;
+
+    root.onclick = async (e) => {
+      const b = e.target.closest('button[data-act]');
+      if (b) return act(b.dataset.act);
+      const row = e.target.closest('[data-w]');
+      if (row && !e.target.closest('input')) { sel = row.dataset.w; PF.App.render(false); }
+      else if (row) { if (sel !== row.dataset.w) { sel = row.dataset.w; PF.App.render(false); } }
+    };
+    root.onchange = (e) => {
+      const el = e.target;
+      if (el.dataset.rename) PF.Store.mutate((st) => { const w = PF.WBS.byId(st, el.dataset.rename); if (w) w.name = el.value.trim() || w.name; });
+    };
+  }
+
+  async function act(a) {
+    const S = PF.Store.state, mut = PF.Store.mutate;
+    const w = sel && PF.WBS.byId(S, sel);
+    if (a === 'addroot') { const n = await PF.prompt('عنصر WBS جديد (المستوى الأول)', 'الاسم', ''); if (n) mut((st) => { sel = PF.WBS.add(st, '', n); }); }
+    else if (a === 'child' && w) { const n = await PF.prompt('عنصر فرعي داخل «' + w.name + '»', 'الاسم', ''); if (n) mut((st) => { sel = PF.WBS.add(st, w.id, n); }); }
+    else if (a === 'sib' && w) { const n = await PF.prompt('عنصر بنفس مستوى «' + w.name + '»', 'الاسم', ''); if (n) mut((st) => { sel = PF.WBS.add(st, w.parent, n); }); }
+    else if (a === 'indent' && w) { let ok; mut((st) => { ok = PF.WBS.indent(st, w.id); }); if (!ok) PF.toast('لا يوجد عنصر فوقه بنفس المستوى ليصبح أباً له'); }
+    else if (a === 'outdent' && w) mut((st) => { PF.WBS.outdent(st, w.id); });
+    else if (a === 'up' && w) mut((st) => { PF.WBS.move(st, w.id, -1); });
+    else if (a === 'down' && w) mut((st) => { PF.WBS.move(st, w.id, 1); });
+    else if (a === 'del' && w) {
+      const n = PF.WBS.subtreeIds(S, w.id).length - 1, na = S.activities.filter((x) => x.wbs === w.id).length;
+      const msg = `حذف «${w.name}»؟ ${n ? 'عناصره الفرعية (' + n + ') ' : ''}${na ? 'وأنشطته (' + na + ') ' : ''}ستنتقل إلى المستوى الأعلى ولن تُحذف.`;
+      if (await PF.confirm(msg, 'حذف', true)) { mut((st) => PF.WBS.remove(st, w.id)); sel = null; }
+    }
+  }
+
+  PF.Views.wbs = { render };
+})(window);
+
+</script>
+  <script>
+/* PlanFlow — إعدادات الشركة: الدولة، عطلة الأسبوع، والعطل الرسمية لكل سنة (تظهر على الجدول الزمني) */
+(function (g) {
+  const PF = g.PF;
+  const D = PF.D, esc = PF.esc, CO = () => PF.Company;
+  const WD = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  let year = new Date().getFullYear();
+
+  function yearGrid(c) {
+    const hmap = {}; c.holidays.forEach((h) => { hmap[h.date] = h.name; });
+    let out = '<div class="ygrid">';
+    for (let m = 0; m < 12; m++) {
+      const first = Math.round(Date.UTC(year, m, 1) / 86400000), dim = D.daysInMonth(year, m);
+      let cells = '';
+      for (let i = 0; i < D.dow(first); i++) cells += '<i></i>';
+      for (let d = 1; d <= dim; d++) {
+        const num = first + d - 1, iso = D.toIso(num), we = c.weekend.includes(D.dow(num));
+        cells += `<i class="${hmap[iso] ? 'h' : we ? 'w' : ''}" ${hmap[iso] ? `title="${esc(hmap[iso])}"` : ''}>${d}</i>`;
+      }
+      out += `<div class="ymon"><b>${D.MONTHS[m]}</b><div class="yd">${cells}</div></div>`;
+    }
+    return out + '</div>';
+  }
+
+  function render(root) {
+    const c = PF.Store.company, cc = CO().COUNTRIES;
+    const list = c.holidays.filter((h) => +h.date.slice(0, 4) === year);
+    const ys = Array.from(new Set([...CO().years(c), year, new Date().getFullYear(), new Date().getFullYear() + 1])).sort();
+    const S = PF.Store.state;
+    root.innerHTML = `
+      <div class="pagehead"><div><h2>إعدادات الشركة والعطل</h2>
+        <div class="sub" style="margin:2px 0 0">العطل التي تضيفها هنا تُطبَّق تلقائياً على تقاويم كل المشاريع، وتُظلَّل على الجدول الزمني وتُستثنى من حساب المدد والتواريخ.</div></div></div>
+      <div class="grid g2" style="margin-bottom:14px">
+        <div class="card"><h3>بيانات الشركة</h3>
+          <label class="fld"><span>اسم الشركة / الإدارة</span><input dir="auto" data-k="name" value="${esc(c.name)}"></label>
+          <label class="fld" style="margin-top:10px"><span>الدولة (لقوالب العطل)</span><select data-k="country">${PF.opts(Object.entries(cc).map(([k, v]) => [k, v.name]), c.country)}</select></label>
+          <div class="fld" style="margin-top:10px"><span>أيام العطلة الأسبوعية</span>
+            <div class="chips">${WD.map((n, i) => `<label class="chip ${c.weekend.includes(i) ? 'on' : ''}"><input type="checkbox" data-we="${i}" ${c.weekend.includes(i) ? 'checked' : ''} hidden>${n}</label>`).join('')}</div></div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" data-act="applywe" title="يضبط أيام العمل في تقويم المشروع الافتراضي">طبّق العطلة الأسبوعية على تقويم المشروع الافتراضي</button></div>
+          <p class="sub" style="margin:10px 0 0">المشاريع الجديدة تبدأ بهذه العطلة الأسبوعية. تقويم المشروع الافتراضي الحالي: <b>${esc((S.calendars.find((x) => x.id === S.meta.defaultCal) || S.calendars[0]).name)}</b>.</p>
+        </div>
+        <div class="card"><h3>إضافة عطل — ${year}</h3>
+          <div class="row"><label class="fld"><span>التاريخ</span><input type="date" id="h1d" value="${year}-01-01"></label>
+            <label class="fld" style="flex:2 1 160px"><span>الاسم</span><input dir="auto" id="h1n" placeholder="مثال: يوم التأسيس"></label>
+            <div class="fld"><span>&nbsp;</span><button class="btn primary" data-act="add1">${PF.icon('plus', 14)} إضافة</button></div></div>
+          <div class="row" style="margin-top:8px"><label class="fld"><span>من</span><input type="date" id="hrf" value="${year}-01-01"></label>
+            <label class="fld"><span>إلى</span><input type="date" id="hrt" value="${year}-01-03"></label>
+            <label class="fld" style="flex:2 1 160px"><span>الاسم (مثل عيد الفطر)</span><input dir="auto" id="hrn"></label>
+            <div class="fld"><span>&nbsp;</span><button class="btn" data-act="addrange">إضافة نطاق أيام</button></div></div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" data-act="preset" ${cc[c.country].fixed.length ? '' : 'disabled'}>أضف عطل ${esc(cc[c.country].name)} الرسمية الثابتة لسنة ${year}</button>
+            <button class="btn" data-act="copynext" ${list.length ? '' : 'disabled'}>انسخ عطل ${year} إلى ${year + 1}</button></div>
+          <p class="sub" style="margin:10px 0 0">القوالب فيها العطل ذات التاريخ الميلادي الثابت فقط. الأعياد والمناسبات الهجرية تتغير كل سنة، فأضفها كنطاق أيام بعد إعلانها رسمياً.</p>
+        </div>
+      </div>
+      <div class="card"><h3>عطل الشركة<span class="sp"></span>
+          <div class="chips">${ys.map((y) => `<button class="chip ${y === year ? 'on' : ''}" data-y="${y}">${y}<i>${c.holidays.filter((h) => +h.date.slice(0, 4) === y).length}</i></button>`).join('')}</div></h3>
+        <div class="grid g21" style="align-items:start">
+          <div class="tw"><table class="t"><thead><tr><th>التاريخ</th><th>اليوم</th><th>الاسم</th><th></th></tr></thead><tbody>
+            ${list.map((h) => `<tr><td class="num">${D.fmt(D.toNum(h.date))}</td><td>${WD[D.dow(D.toNum(h.date))]}${c.weekend.includes(D.dow(D.toNum(h.date))) ? ' <span class="t-mut" title="يوم عطلة أسبوعية أصلاً">(عطلة أسبوعية)</span>' : ''}</td>
+              <td><input class="cell-in" dir="auto" value="${esc(h.name)}" data-hname="${h.date}"></td>
+              <td><button class="btn sm icon-btn" data-hdel="${h.date}" title="حذف">${PF.icon('trash', 15)}</button></td></tr>`).join('') || `<tr><td colspan="4"><div class="empty"><b>لا توجد عطل لسنة ${year}</b>أضف عطلة أو استخدم قالب الدولة.</div></td></tr>`}
+          </tbody></table></div>
+          <div>${yearGrid(c)}<div class="sub" style="margin-top:6px"><span class="lg h"></span> عطلة رسمية &nbsp; <span class="lg w"></span> عطلة أسبوعية</div></div>
+        </div>
+      </div>`;
+
+    root.onclick = async (e) => {
+      const y = e.target.closest('[data-y]'); if (y) { year = +y.dataset.y; PF.App.render(false); return; }
+      const del = e.target.closest('[data-hdel]');
+      if (del) { PF.Store.setCompany((x) => { x.holidays = x.holidays.filter((h) => h.date !== del.dataset.hdel); }); return; }
+      const b = e.target.closest('[data-act]'); if (!b) return;
+      const val = (id) => (root.querySelector('#' + id) || {}).value;
+      const a = b.dataset.act;
+      if (a === 'add1') {
+        const d = val('h1d'); if (!d) { PF.toast('اختر التاريخ', 'err'); return; }
+        year = +d.slice(0, 4);
+        PF.Store.setCompany((x) => { x.holidays = CO().merge(x.holidays, [{ date: d, name: (val('h1n') || '').trim() || 'عطلة رسمية' }]); });
+      } else if (a === 'addrange') {
+        const f = val('hrf'), t = val('hrt'); if (!f || !t || t < f) { PF.toast('حدّد نطاقاً صحيحاً (من ≤ إلى)', 'err'); return; }
+        year = +f.slice(0, 4);
+        PF.Store.setCompany((x) => { x.holidays = CO().merge(x.holidays, CO().rangeOf(f, t, (val('hrn') || '').trim() || 'عطلة رسمية')); });
+        PF.toast('أُضيفت أيام النطاق', 'ok');
+      } else if (a === 'preset') {
+        PF.Store.setCompany((x) => { x.holidays = CO().merge(x.holidays, CO().presetFor(x.country, year)); });
+      } else if (a === 'copynext') {
+        PF.Store.setCompany((x) => { x.holidays = CO().merge(x.holidays, x.holidays.filter((h) => +h.date.slice(0, 4) === year).map((h) => ({ date: (year + 1) + h.date.slice(4), name: h.name }))); });
+        year += 1;
+        PF.toast('نُسخت العطل. راجع التواريخ المتغيرة (الأعياد الهجرية) وعدّلها.', 'ok');
+      } else if (a === 'applywe') {
+        PF.Store.mutate((st) => { const cal = st.calendars.find((k) => k.id === st.meta.defaultCal) || st.calendars[0]; const we = PF.Store.company.weekend; cal.workdays = [0, 1, 2, 3, 4, 5, 6].filter((d) => !we.includes(d)); });
+        PF.toast('تم تحديث أيام العمل في تقويم المشروع', 'ok');
+      }
+    };
+    root.onchange = (e) => {
+      const el = e.target;
+      if (el.dataset.k === 'name') PF.Store.setCompany((x) => { x.name = el.value; });
+      else if (el.dataset.k === 'country') PF.Store.setCompany((x) => { x.country = el.value; x.weekend = cc[el.value].weekend.slice(); });
+      else if (el.dataset.we != null) {
+        const d = +el.dataset.we, cur = PF.Store.company.weekend.filter((x) => x !== d).concat(el.checked ? [d] : []);
+        if (cur.length >= 7) { PF.toast('لا يمكن أن تكون كل الأيام عطلة', 'err'); PF.App.render(false); return; }
+        PF.Store.setCompany((x) => { x.weekend = cur.sort(); });
+      } else if (el.dataset.hname) PF.Store.setCompany((x) => { const h = x.holidays.find((k) => k.date === el.dataset.hname); if (h) h.name = el.value.trim() || h.name; });
+    };
+  }
+
+  PF.Views.company = { render };
+})(window);
+
+</script>
+  <script>
+/* PlanFlow — بيانات المشروع (Master Data): يدوية أو تُملأ جزئياً من الاستيراد */
+(function (g) {
+  const PF = g.PF;
+  const esc = PF.esc, I = () => PF.Info;
+  const GROUPS = { id: 'التعريف', party: 'الأطراف', time: 'المدة التعاقدية', cost: 'التكلفة', risk: 'المخاطر وعدم اليقين', master: 'أرقام من الماستر شيت (تُستخدم في الداشبورد عند عدم وجود جدول Primavera)' };
+
+  function field(S, [k, label, type]) {
+    const v = S.info[k] == null ? '' : S.info[k];
+    const miss = v === '' ? ' miss' : '';
+    let el;
+    if (type === 'select') el = `<select data-i="${k}">${PF.opts(I().STATUSES.concat(v && !I().STATUSES.includes(v) ? [v] : []).map((x) => [x, x]), v)}</select>`;
+    else if (type === 'area') el = `<textarea rows="3" dir="auto" data-i="${k}">${esc(v)}</textarea>`;
+    else el = `<input type="${type}" dir="auto" data-i="${k}" value="${esc(v)}" ${type === 'number' ? 'step="any"' : ''}>`;
+    return `<label class="fld${miss}"><span>${label}</span>${el}</label>`;
+  }
+
+  function claims(S, key, title) {
+    const L = S.info[key];
+    const tot = L.reduce((t, x) => t + (+x.cost || 0), 0), days = L.reduce((t, x) => t + (+x.days || 0), 0);
+    return `<div class="card"><h3>${title}<span class="sp"></span><button class="btn sm" data-add="${key}">${PF.icon('plus', 14)} إضافة</button></h3>
+      <div class="tw"><table class="t"><thead><tr><th>الرقم</th><th>الوصف</th><th>التكلفة (${esc(S.meta.currency)})</th><th>الأيام</th><th>الحالة</th><th>تاريخ التوصية</th><th></th></tr></thead><tbody>
+      ${L.map((x, i) => `<tr><td><input class="cell-in" dir="auto" data-c="${key}.${i}.no" value="${esc(x.no || '')}" style="width:70px"></td>
+        <td><input class="cell-in" dir="auto" data-c="${key}.${i}.desc" value="${esc(x.desc || '')}"></td>
+        <td><input class="cell-in num" type="number" data-c="${key}.${i}.cost" value="${esc(x.cost == null ? '' : x.cost)}" style="width:100px"></td>
+        <td><input class="cell-in num" type="number" data-c="${key}.${i}.days" value="${esc(x.days == null ? '' : x.days)}" style="width:70px"></td>
+        <td><select data-c="${key}.${i}.status">${PF.opts(I().CLAIM_STATUS.map((s) => [s, s]), x.status)}</select></td>
+        <td><input class="cell-in" type="date" data-c="${key}.${i}.rec" value="${esc(x.rec || '')}"></td>
+        <td><button class="btn sm icon-btn" data-del="${key}.${i}">${PF.icon('trash', 15)}</button></td></tr>`).join('') || `<tr><td colspan="7"><div class="empty">لا توجد عناصر.</div></td></tr>`}
+      </tbody></table></div>
+      <div class="sub" style="margin:8px 0 0">الإجمالي: ${PF.num(tot)} ${esc(S.meta.currency)} · ${days} يوم</div>
+      <label style="display:flex;gap:6px;align-items:center;margin-top:6px;font-size:12.5px"><input type="checkbox" data-none="${key}" ${S.checklist['none_' + (key === 'vos' ? 'vo' : 'cor')] ? 'checked' : ''}> لا يوجد في هذا المشروع (يُحتسب مكتملاً في قائمة التحقق)</label></div>`;
+  }
+
+  function ipcs(S) {
+    const L = S.info.ipcs, fn = I().fin(S), tot = (k) => L.filter((x) => x.kind === k).reduce((t, x) => t + (+x.amount || 0), 0);
+    return `<div class="card"><h3>الدفعات IPC (اختياري — للداشبورد المالي)<span class="sp"></span><button class="btn sm" data-add="ipcs">${PF.icon('plus', 14)} إضافة</button></h3>
+      <div class="tw"><table class="t"><thead><tr><th>الرقم</th><th>المبلغ</th><th>النوع</th><th>التاريخ (الدفع / الاعتماد / التقديم المتوقع)</th><th>تاريخ الإرسال للمالك</th><th></th></tr></thead><tbody>
+      ${L.map((x, i) => `<tr><td><input class="cell-in" dir="auto" data-c="ipcs.${i}.no" value="${esc(x.no || '')}" style="width:80px"></td>
+        <td><input class="cell-in num" type="number" data-c="ipcs.${i}.amount" value="${esc(x.amount == null ? '' : x.amount)}" style="width:110px"></td>
+        <td><select data-c="ipcs.${i}.kind">${PF.opts([['paid', 'مدفوعة'], ['unpaid', 'معتمدة وغير مدفوعة'], ['forecast', 'متوقعة']], x.kind)}</select></td>
+        <td><input class="cell-in" type="date" data-c="ipcs.${i}.d1" value="${esc(x.d1 || '')}"></td>
+        <td><input class="cell-in" type="date" data-c="ipcs.${i}.d2" value="${esc(x.d2 || '')}"></td>
+        <td><button class="btn sm icon-btn" data-del="ipcs.${i}">${PF.icon('trash', 15)}</button></td></tr>`).join('') || '<tr><td colspan="6"><div class="empty">لا توجد دفعات.</div></td></tr>'}
+      </tbody></table></div><div class="sub" style="margin:8px 0 0">مدفوعة: ${PF.num(tot('paid'))} · معتمدة غير مدفوعة: ${PF.num(tot('unpaid'))} · متوقعة: ${PF.num(tot('forecast'))} ${esc(S.meta.currency)}${fn.derived ? ' — «المدفوع» و«المعتمد» في الداشبورد يُحسبان من هذه الدفعات' : ''}</div></div>`;
+  }
+
+  function render(root) {
+    const S = PF.Store.state;
+    I().ensure(S);
+    const sm = I().summary(S, PF.Store.C);
+    root.innerHTML = `
+      <div class="pagehead"><div><h2>بيانات المشروع</h2><div class="sub" style="margin:2px 0 0">الخانات الفارغة مظلّلة بالأحمر الفاتح وتظهر كنقص في <a class="link" href="#/checklist">قائمة التحقق</a> (مكتمل ${Math.round(sm.pct * 100)}%).</div></div></div>
+      <div class="card" style="margin-bottom:14px"><h3>أساسيات</h3><div class="grid g3">
+        <label class="fld"><span>اسم المشروع</span><input dir="auto" data-m="name" value="${esc(S.meta.name)}"></label>
+        <label class="fld"><span>اسم المالك / العميل</span><input dir="auto" data-m="client" value="${esc(S.meta.client || '')}"></label>
+        <label class="fld"><span>العملة</span><input data-m="currency" value="${esc(S.meta.currency)}"></label>
+        <label class="fld"><span>بداية الجدول</span><input type="date" data-m="startDate" value="${esc(S.meta.startDate)}"></label>
+        <label class="fld"><span>تاريخ البيانات</span><input type="date" data-m="dataDate" value="${esc(S.meta.dataDate)}"></label></div></div>
+      <div class="grid g2" style="margin-bottom:14px">
+        ${Object.entries(GROUPS).map(([gid, gname]) => `<div class="card"><h3>${gname}</h3>${I().FIELDS.filter((f) => f[3] === gid).map((f) => field(S, f)).join('')}</div>`).join('')}
+      </div>
+      <div class="grid g2">${claims(S, 'vos', 'أوامر التغيير (VO)')}${claims(S, 'cors', 'طلبات التغيير (COR)')}</div>
+      <div style="margin-top:14px">${ipcs(S)}</div>`;
+    root.onchange = (e) => {
+      const el = e.target;
+      if (el.dataset.m) PF.Store.mutate((st) => { st.meta[el.dataset.m] = el.value; });
+      else if (el.dataset.i) PF.Store.mutate((st) => { st.info[el.dataset.i] = el.type === 'number' ? (el.value === '' ? '' : +el.value) : el.value; });
+      else if (el.dataset.c) { const [k, i, f] = el.dataset.c.split('.'); PF.Store.mutate((st) => { st.info[k][+i][f] = el.type === 'number' ? (el.value === '' ? null : +el.value) : el.value; }); }
+      else if (el.dataset.none) PF.Store.mutate((st) => { st.checklist['none_' + (el.dataset.none === 'vos' ? 'vo' : 'cor')] = el.checked; });
+    };
+    root.onclick = (e) => {
+      const a = e.target.closest('[data-add]'), d = e.target.closest('[data-del]');
+      if (a) PF.Store.mutate((st) => { const k = a.dataset.add, L = st.info[k]; L.push(k === 'ipcs' ? { no: 'IPC-' + (L.length + 1), amount: null, kind: 'unpaid', d1: '', d2: '' } : { no: (k === 'vos' ? 'VO-' : 'COR-') + (L.length + 1), desc: '', cost: null, days: null, status: 'مقدَّم', rec: '' }); });
+      else if (d) { const [k, i] = d.dataset.del.split('.'); PF.Store.mutate((st) => st.info[k].splice(+i, 1)); }
+    };
+  }
+  PF.Views.projectdata = { render };
+})(window);
+
+</script>
+  <script>
+/* PlanFlow — قائمة التحقق: ما الموجود وما الناقص. البنود تلقائية (تُحسب من البيانات) + يدوية، وكل بند قابل للإخفاء */
+(function (g) {
+  const PF = g.PF;
+  const esc = PF.esc;
+  let showHidden = false, onlyMissing = false;
+
+  function render(root) {
+    const S = PF.Store.state, C = PF.Store.C;
+    PF.Info.ensure(S);
+    const all = PF.Info.evaluate(S, C);
+    const vis = all.filter((x) => !x.hidden), done = vis.filter((x) => x.done).length, pct = vis.length ? done / vis.length : 1;
+    const groups = []; all.forEach((x) => { let g = groups.find((y) => y.name === x.group); if (!g) groups.push((g = { name: x.group, items: [] })); g.items.push(x); });
+    const missing = vis.filter((x) => !x.done);
+    root.innerHTML = `
+      <div class="pagehead"><div><h2>قائمة التحقق</h2><div class="sub" style="margin:2px 0 0">البنود التلقائية تُحسب من بيانات المشروع فور تعبئتها (يدوياً أو من ملف XER). أخفِ أي بند لا يلزمكم.</div></div>
+        <span class="sp"></span><label class="chip ${onlyMissing ? 'on' : ''}"><input type="checkbox" id="om" ${onlyMissing ? 'checked' : ''} hidden>الناقص فقط</label>
+        <label class="chip ${showHidden ? 'on' : ''}"><input type="checkbox" id="sh" ${showHidden ? 'checked' : ''} hidden>إظهار المخفي</label></div>
+      <div class="card" style="margin-bottom:14px"><div style="display:flex;align-items:baseline;gap:12px"><span style="font-size:30px;font-weight:600" class="num">${Math.round(pct * 100)}%</span>
+        <span class="sub" style="margin:0">اكتمل ${done} من ${vis.length} بنداً — الناقص ${missing.length}</span></div>
+        <div class="bar-track" style="height:10px"><i style="width:${pct * 100}%;background:var(--ok)"></i></div></div>
+      <div class="grid g2" style="align-items:start">
+        ${groups.map((g) => {
+          const items = g.items.filter((x) => (showHidden || !x.hidden) && (!onlyMissing || !x.done));
+          const vs = g.items.filter((x) => !x.hidden), dn = vs.filter((x) => x.done).length;
+          if (!items.length && !g.items.some((x) => x.manual)) return '';
+          return `<div class="card"><h3>${esc(g.name)}<span class="sp"></span><span class="tag ${dn === vs.length ? 'ok' : 'risk'} num">${dn}/${vs.length}</span></h3>
+            ${items.map((x) => `<div class="qrow ck ${x.hidden ? 'dim' : ''}">
+              ${x.manual ? `<input type="checkbox" data-mdone="${esc(x.id)}" ${x.done ? 'checked' : ''}>` : `<span class="ckm ${x.done ? 'ok' : 'no'}">${x.done ? '✓' : '✕'}</span>`}
+              <span style="flex:1" dir="auto">${esc(x.label)}${x.detail ? `<div class="t-mut" style="font-size:12px">${esc(x.detail)}</div>` : ''}</span>
+              ${!x.done && x.link ? `<a class="link" href="#/${x.link}">استكمال</a>` : ''}
+              ${x.manual ? `<button class="btn sm icon-btn" data-mdel="${esc(x.id)}" title="حذف">${PF.icon('trash', 14)}</button>` : `<button class="link" style="text-decoration:none" data-hide="${esc(x.id)}" title="${x.hidden ? 'إعادة البند' : 'إخفاء (غير مطلوب)'}">${x.hidden ? 'إعادة' : '⊘'}</button>`}
+            </div>`).join('') || '<div class="empty">لا شيء للعرض.</div>'}
+            ${g.name === 'بنود إضافية' ? '' : ''}</div>`;
+        }).join('')}
+        <div class="card"><h3>إضافة بند خاص بكم</h3><div class="row"><label class="fld" style="flex:3 1 200px"><span>البند</span><input dir="auto" id="mn" placeholder="مثال: استلام جدول المقاول من الموقع"></label>
+          <label class="fld"><span>المجموعة</span><input dir="auto" id="mg" placeholder="بنود إضافية"></label>
+          <div class="fld"><span>&nbsp;</span><button class="btn primary" data-act="addm">${PF.icon('plus', 14)} إضافة</button></div></div></div>
+      </div>`;
+    root.onchange = (e) => {
+      const el = e.target;
+      if (el.id === 'om') { onlyMissing = el.checked; PF.App.render(false); }
+      else if (el.id === 'sh') { showHidden = el.checked; PF.App.render(false); }
+      else if (el.dataset.mdone) PF.Store.mutate((st) => { const m = st.checklist.manual.find((x) => x.id === el.dataset.mdone); if (m) m.done = el.checked; });
+    };
+    root.onclick = (e) => {
+      const h = e.target.closest('[data-hide]'), md = e.target.closest('[data-mdel]'), a = e.target.closest('[data-act="addm"]');
+      if (h) PF.Store.mutate((st) => { if (st.checklist.hidden[h.dataset.hide]) delete st.checklist.hidden[h.dataset.hide]; else st.checklist.hidden[h.dataset.hide] = true; });
+      else if (md) PF.Store.mutate((st) => { st.checklist.manual = st.checklist.manual.filter((x) => x.id !== md.dataset.mdel); });
+      else if (a) {
+        const n = root.querySelector('#mn').value.trim(); if (!n) { PF.toast('اكتب نص البند', 'err'); return; }
+        PF.Store.mutate((st) => st.checklist.manual.push({ id: PF.uid('m'), label: n, group: root.querySelector('#mg').value.trim() || 'بنود إضافية', done: false }));
+      }
+    };
+  }
+  PF.Views.checklist = { render };
+})(window);
+
+</script>
+  <script>
+/* PlanFlow — سجل التحديثات: كل رفع ملف وكل تعديل مهم، مع فلترة */
+(function (g) {
+  const PF = g.PF;
+  const esc = PF.esc;
+  const F = { types: new Set(), q: '', from: '', to: '', src: '' };
+  const ICON = { import: '⬆', progress: '◔', schedule: '▤', info: 'ⓘ', change: '±', finance: '$', baseline: '⚑', other: '•' };
+
+  function render(root) {
+    const S = PF.Store.state, T = PF.Log.TYPES;
+    const all = (S.log || []).slice().reverse();
+    const srcs = Array.from(new Set(all.map((x) => x.source).filter(Boolean)));
+    const day = (e) => e.ts.slice(0, 10);
+    const list = all.filter((e) => (!F.types.size || F.types.has(e.type)) && (!F.src || e.source === F.src) && (!F.from || day(e) >= F.from) && (!F.to || day(e) <= F.to)
+      && (!F.q || (e.title + ' ' + e.detail.join(' ') + ' ' + (e.source || '')).toLowerCase().includes(F.q.toLowerCase())));
+    const cnt = (t) => all.filter((e) => e.type === t).length;
+    const byDay = []; list.forEach((e) => { const d = day(e); let g = byDay[byDay.length - 1]; if (!g || g.d !== d) byDay.push((g = { d, items: [] })); g.items.push(e); });
+    const tm = (e) => new Date(e.ts).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    root.innerHTML = `
+      <div class="pagehead"><div><h2>سجل التحديثات</h2><div class="sub" style="margin:2px 0 0">كل رفع ملف (XER أو Excel أو JSON) وكل تعديل يُسجَّل هنا بتاريخه ووقته. ${all.length} مدخل.</div></div>
+        <span class="sp"></span><button class="btn" data-act="csv">${PF.icon('download')} تصدير CSV</button></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="chips" style="margin-bottom:10px">${Object.entries(T).map(([k, v]) => `<button class="chip ${F.types.has(k) ? 'on' : ''}" data-t="${k}">${v}<i>${cnt(k)}</i></button>`).join('')}${F.types.size ? '<button class="link" data-act="clear">مسح الفلتر</button>' : ''}</div>
+        <div class="row"><label class="fld" style="flex:2 1 200px"><span>بحث</span><input dir="auto" data-f="q" value="${esc(F.q)}" placeholder="نشاط، حقل، اسم ملف…"></label>
+          <label class="fld"><span>من تاريخ</span><input type="date" data-f="from" value="${F.from}"></label>
+          <label class="fld"><span>إلى تاريخ</span><input type="date" data-f="to" value="${F.to}"></label>
+          <label class="fld"><span>المصدر (الملف)</span><select data-f="src"><option value="">الكل</option>${srcs.map((x) => `<option ${F.src === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select></label></div>
+        <div class="row" style="margin-top:4px"><label class="fld" style="flex:3 1 260px"><span>أضف ملاحظة يدوية للسجل</span><input dir="auto" id="note" placeholder="مثال: اجتماع مع الاستشاري — اتُّفق على…"></label>
+          <div class="fld"><span>&nbsp;</span><button class="btn" data-act="note">إضافة</button></div></div></div>
+      ${byDay.map((g) => `<div class="card" style="margin-bottom:10px"><h3>${PF.D.fmtLong(PF.D.toNum(g.d))}<span class="sp"></span><span class="t-mut" style="font-size:12px">${g.items.length}</span></h3>
+        ${g.items.map((e) => `<details class="lg-e"><summary><span class="lg-i ${e.type}">${ICON[e.type] || '•'}</span><span style="flex:1" dir="auto">${esc(e.title)}</span>${e.source ? `<span class="tag none" dir="auto">${esc(e.source)}</span>` : ''}<span class="tag info">${T[e.type] || e.type}</span><span class="t-mut num">${tm(e)}</span></summary>
+          ${e.detail.length ? `<ul class="sub" style="margin:6px 0 4px;padding-inline-start:22px">${e.detail.map((d) => `<li dir="auto">${esc(d)}</li>`).join('')}</ul>` : '<div class="sub" style="margin:6px 22px">لا تفاصيل.</div>'}</details>`).join('')}</div>`).join('') || '<div class="card"><div class="empty"><b>لا توجد مدخلات</b>ستظهر هنا التحديثات فور حدوثها.</div></div>'}`;
+    root.onclick = (e) => {
+      const t = e.target.closest('[data-t]'), a = e.target.closest('[data-act]');
+      if (t) { F.types.has(t.dataset.t) ? F.types.delete(t.dataset.t) : F.types.add(t.dataset.t); PF.App.render(false); }
+      else if (a && a.dataset.act === 'clear') { F.types.clear(); PF.App.render(false); }
+      else if (a && a.dataset.act === 'note') { const n = root.querySelector('#note').value.trim(); if (!n) return; PF.Store.mutate(() => {}, { type: 'other', title: n, detail: [] }); }
+      else if (a && a.dataset.act === 'csv') {
+        const q = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+        PF.download('update-log.csv', '﻿' + ['التاريخ والوقت,النوع,العنوان,المصدر,التفاصيل'].concat(list.map((x) => [x.ts, T[x.type] || x.type, x.title, x.source, x.detail.join(' | ')].map(q).join(','))).join('\r\n'), 'text/csv;charset=utf-8');
+      }
+    };
+    root.onchange = (e) => { const f = e.target.dataset.f; if (f) { F[f] = e.target.value; PF.App.render(false); } };
+  }
+  PF.Views.log = { render };
+})(window);
+
+</script>
+  <script>
+/* PlanFlow — شاشة البداية: مساران (تعبئة من الصفر / سحب ملف Primavera) + مشروع تجريبي */
+(function (g) {
+  const PF = g.PF;
+  function render(root) {
+    root.innerHTML = `
+      <div class="pagehead"><div><h2>ابدأ مشروعك</h2><div class="sub" style="margin:2px 0 0">اختر الطريقة. في الحالتين ستجد في «قائمة التحقق» ما اكتمل وما ينقص.</div></div></div>
+      <div class="grid g3" style="max-width:1000px">
+        <div class="card startc"><h3>1. ابدأ من الصفر</h3><p class="sub">املأ بيانات المشروع ثم أنشئ WBS والأنشطة والعلاقات هنا مباشرة، واعمل بالموقع كبديل عن Primavera.</p>
+          <button class="btn primary" data-act="blank">مشروع جديد فارغ</button></div>
+        <div class="card startc"><h3>2. ارفع ملفاتك</h3><p class="sub">XER من Primavera (الهيكل والأنشطة والعلاقات والتقاويم والتقدّم) و/أو Master Sheet بصيغة Excel (بيانات المشروع). يمكن رفع النوعين، وكل رفع يُسجَّل في سجل التحديثات.</p>
+          <button class="btn primary" data-act="xer">اختر ملف (XER / Excel)</button><input type="file" id="xf" accept=".xer,.XER,.xlsx,.xlsm" hidden></div>
+        <div class="card startc"><h3>3. جرّب مشروعاً تجريبياً</h3><p class="sub">مبنى من 4 طوابق ببيانات كاملة تقريباً لتتعرف على الصفحات.</p>
+          <button class="btn" data-act="sample">افتح المشروع التجريبي</button></div>
+      </div>
+      <p class="sub" style="margin-top:14px">لن تحتاج لإعادة هذه الشاشة: يمكنك لاحقاً البدء من جديد أو الاستيراد من «البيانات والاستيراد».
+        <button class="link" data-act="skip">تخطّي</button></p>`;
+    const done = (to) => PF.App.show(to);
+    root.onclick = (e) => {
+      const a = e.target.closest('[data-act]'); if (!a) return;
+      const k = a.dataset.act;
+      if (k === 'blank') { PF.Store.blank(); done('projectdata'); }
+      else if (k === 'sample') { PF.Store.reset(); done('dashboard'); }
+      else if (k === 'skip') { PF.Store.replace(PF.Store.state); done('dashboard'); }
+      else if (k === 'xer') root.querySelector('#xf').click();
+    };
+    root.onchange = (e) => {
+      if (e.target.id !== 'xf') return;
+      const f = e.target.files[0]; if (!f) return;
+      PF.Views.settings.importFile(f);
+    };
+  }
+  PF.Views.start = { render };
+})(window);
+
+</script>
+  <script>
 /* PlanFlow — الجدول الزمني: جدول أنشطة + Gantt + مسار حرج + سحب وإفلات */
 (function (g) {
   const PF = g.PF;
   const D = PF.D, esc = PF.esc, S_ = () => PF.Store.state, C_ = () => PF.Store.C;
   const ROWH = 34;
 
-  const UI = Object.assign({ sel: null, collapsed: {}, filter: 'all', q: '', zoom: 12, float: true, base: true, links: true, tbl: true }, safeLoad());
+  const UI = Object.assign({ sel: null, selG: null, collapsed: {}, filter: 'all', q: '', zoom: 12, float: true, base: true, links: true, tbl: true }, safeLoad());
   function safeLoad() { try { return JSON.parse(localStorage.getItem('planflow.ui') || '{}'); } catch (e) { return {}; } }
   if (window.innerWidth < 760 && safeLoad().tbl === undefined) UI.tbl = false;
   function saveUI() { try { localStorage.setItem('planflow.ui', JSON.stringify({ collapsed: UI.collapsed, zoom: UI.zoom, float: UI.float, base: UI.base, links: UI.links, tbl: UI.tbl })); } catch (e) { /* */ } }
@@ -1601,16 +2669,27 @@ table.t input[type=number] { text-align: center; }
     const S = S_(), C = C_();
     const bl = PF.CPM.baselineOf(S);
     const filtering = UI.filter !== 'all' || UI.q;
-    const groups = S.wbs.map((w) => ({ w, acts: S.activities.filter((a) => a.wbs === w.id) }));
+    // ---- الصفوف: ملخص المشروع ثم شجرة WBS (أي عمق) ثم الأنشطة
+    const flat = PF.WBS.flat(S).map((x) => ({ ...x }));
     const orphan = S.activities.filter((a) => !S.wbs.some((w) => w.id === a.wbs));
-    if (orphan.length) groups.push({ w: { id: '', name: 'بدون مجموعة' }, acts: orphan });
-
+    if (orphan.length) flat.push({ w: { id: '', name: 'بدون مجموعة', parent: '' }, depth: 0, hasKids: false });
+    const direct = (w) => (w.id === '' ? orphan : S.activities.filter((a) => a.wbs === w.id));
+    // هل في الشجرة تحت العنصر نشاط يطابق التصفية؟
+    const visInSub = {};
+    flat.forEach((x) => { const ids = x.w.id === '' ? [''] : PF.WBS.subtreeIds(S, x.w.id); visInSub[x.w.id] = S.activities.some((a) => (ids.includes(a.wbs) || (x.w.id === '' && orphan.includes(a))) && passes(a, S, C)); });
     const rows = [];
-    groups.forEach((gr) => {
-      const vis = gr.acts.filter((a) => passes(a, S, C));
-      if (filtering && !vis.length) return;
-      rows.push({ t: 'g', gr });
-      if (!UI.collapsed[gr.w.id]) vis.forEach((a) => rows.push({ t: 'a', a }));
+    const tot = PF.WBS.rollup(S, C, null, bl);
+    rows.push({ t: 'p', ru: tot });
+    const wcodes = PF.WBS.codes(S);
+    let hideDepth = Infinity;
+    flat.forEach((x) => {
+      if (x.depth > hideDepth) return; // تحت عنصر مطوي
+      hideDepth = Infinity;
+      if (filtering && !visInSub[x.w.id]) return;
+      const ru = x.w.id === '' ? PF.WBS.rollup({ ...S, wbs: [{ id: '', name: '', parent: '' }], activities: orphan.map((a) => ({ ...a, wbs: '' })) }, C, '', bl) : PF.WBS.rollup(S, C, x.w.id, bl);
+      rows.push({ t: 'g', x, ru, code: wcodes[x.w.id] || '', n: direct(x.w).length });
+      if (UI.collapsed[x.w.id]) { hideDepth = x.depth; return; }
+      direct(x.w).filter((a) => passes(a, S, C)).forEach((a) => rows.push({ t: 'a', a, depth: x.depth + 1 }));
     });
 
     // نطاق الزمن
@@ -1625,7 +2704,7 @@ table.t input[type=number] { text-align: center; }
     const ge = mx + 12;
     const dw = UI.zoom, W = (ge - gs) * dw;
     const X = (d) => (d - gs) * dw;
-    const tblW = UI.tbl ? 640 : 330;
+    const tblW = UI.tbl ? 860 : 330;
     const idx = {}; // صف كل نشاط
     rows.forEach((r, i) => { if (r.t === 'a') idx[r.a.id] = i; });
 
@@ -1640,10 +2719,13 @@ table.t input[type=number] { text-align: center; }
     }
     for (let d = gs; d < ge; d += dw >= 22 ? 1 : 7) head += `<div class="wk" style="left:${X(d)}px;width:${(dw >= 22 ? 1 : 7) * dw}px">${dw >= 8 ? D.parts(d).d : ''}</div>`;
 
-    // ---- خلفية العطل
+    // ---- خلفية العطل: عطلة أسبوعية + عطل رسمية (الشركة/التقويم) بأسمائها
     let bg = '';
+    const hmap = PF.Store.holidayMap(S.meta.defaultCal);
+    const wkCal = C.defCal;
     for (let d = gs; d < ge; d++) {
-      if (!C.defCal.isWork(d)) { let e = d; while (e + 1 < ge && !C.defCal.isWork(e + 1)) e++; bg += `<div class="nw" style="left:${X(d)}px;width:${(e - d + 1) * dw}px"></div>`; d = e; }
+      if (hmap[d]) { bg += `<div class="hol ${hmap[d].src === 'calendar' ? 'cal' : ''}" style="left:${X(d)}px;width:${Math.max(2, dw)}px" title="${esc(hmap[d].name)} — ${D.fmt(d)}"></div>`; continue; }
+      if (!wkCal.isWork(d)) { let e = d; while (e + 1 < ge && !wkCal.isWork(e + 1) && !hmap[e + 1]) e++; bg += `<div class="nw" style="left:${X(d)}px;width:${(e - d + 1) * dw}px"></div>`; d = e; }
     }
     const dd = D.toNum(S.meta.dataDate) + 1, td = D.today();
     bg += `<div class="dline" style="left:${X(dd)}px"><span>تاريخ البيانات</span></div>`;
@@ -1651,17 +2733,18 @@ table.t input[type=number] { text-align: center; }
 
     // ---- الصفوف
     const rowsHtml = rows.map((row) => {
-      if (row.t === 'g') {
-        const { gr } = row;
-        const rs = gr.acts.map((a) => C.byId[a.id]);
-        const has = rs.length > 0;
-        const s = has ? Math.min(...rs.map((r) => r.s)) : 0, f = has ? Math.max(...rs.map((r) => r.f)) : 0;
-        const tot = gr.acts.reduce((t, a) => t + Math.max(1, a.dur || 0), 0) || 1;
-        const pc = gr.acts.reduce((t, a) => t + Math.max(1, a.dur || 0) * (C.byId[a.id].status === 'complete' ? 100 : a.pct || 0), 0) / tot;
-        return `<div class="srow grp ${UI.collapsed[gr.w.id] ? 'col' : ''}" data-g="${esc(gr.w.id)}">
-          <div class="scells"><div class="c c-id"></div><div class="c c-name" data-gtoggle="${esc(gr.w.id)}" title="انقر للطي والفتح — انقر نقراً مزدوجاً لإعادة التسمية"><span class="caret">${PF.icon('caret', 14)}</span><span dir="auto">${esc(gr.w.name)}</span><span class="t-mut" style="font-weight:400">(${gr.acts.length})</span></div>
-          <div class="c c-dur"></div><div class="c c-s">${has ? D.fmt(s) : ''}</div><div class="c c-f">${has ? D.fmt(f - 1) : ''}</div><div class="c c-tf"></div><div class="c c-pct">${has ? Math.round(pc) + '%' : ''}</div></div>
-          <div class="gcell" style="width:${W}px">${has ? `<div class="gsum" style="left:${X(s)}px;width:${Math.max(4, (f - s) * dw)}px"></div>` : ''}</div></div>`;
+      if (row.t === 'p' || row.t === 'g') {
+        const ru = row.ru, has = ru.n > 0, isP = row.t === 'p';
+        const id = isP ? '__p' : row.x.w.id, name = isP ? S.meta.name : row.x.w.name, depth = isP ? 0 : row.x.depth;
+        const pad = depth * 16;
+        const tfv = has && ru.tf != null ? ru.tf : null;
+        return `<div class="srow grp ${isP ? 'proj' : ''} ${UI.collapsed[id] ? 'col' : ''} ${UI.selG === id ? 'sel' : ''}" data-g="${esc(id)}">
+          <div class="scells"><div class="c c-id num">${isP ? '' : esc(row.code)}</div><div class="c c-name" ${isP ? '' : `data-gtoggle="${esc(id)}" title="انقر للطي والفتح — نقرتان لإعادة التسمية"`} style="padding-left:${pad}px">${isP ? '' : `<span class="caret ${row.x.hasKids || row.n ? '' : 'dim'}">${PF.icon('caret', 14)}</span>`}<span dir="auto">${esc(name)}</span><span class="t-mut" style="font-weight:400">(${has ? ru.n : 0})</span></div>
+          <div class="c c-dur num">${has ? ru.dur : ''}</div><div class="c c-s num">${has ? D.fmt(ru.s) : ''}</div><div class="c c-f num">${has ? D.fmt(ru.f - 1) : ''}</div>
+          <div class="c c-bs num">${has && ru.bs != null ? D.fmt(ru.bs) : ''}</div><div class="c c-bf num">${has && ru.bf != null ? D.fmt(ru.bf - 1) : ''}</div>
+          <div class="c c-tf num tfv ${tfv == null ? '' : tfv < 0 ? 'neg' : tfv === 0 ? 'zero' : ''}">${tfv == null ? '' : tfv}</div>
+          <div class="c c-pct num">${has ? ru.perf.toFixed(ru.perf % 1 ? 1 : 0) + '%' : ''}</div><div class="c c-sp num">${has && ru.sched != null ? ru.sched.toFixed(ru.sched % 1 ? 1 : 0) + '%' : ''}</div></div>
+          <div class="gcell" style="width:${W}px">${has ? `<div class="gsum" style="left:${X(ru.s)}px;width:${Math.max(4, (ru.f - ru.s) * dw)}px"></div>` : ''}</div></div>`;
       }
       const a = row.a, r = C.byId[a.id], isM = a.type === 'milestone';
       const tf = r.tf, tfc = r.status === 'complete' ? '' : tf < 0 ? 'neg' : tf === 0 ? 'zero' : tf <= S.meta.nearCritical ? 'low' : '';
@@ -1689,11 +2772,13 @@ table.t input[type=number] { text-align: center; }
       return `<div class="srow ${UI.sel === a.id ? 'sel' : ''}" data-row="${esc(a.id)}">
         <div class="scells">
           <div class="c c-id"><span class="sdot ${dot}"></span>${esc(a.id)}</div>
-          <div class="c c-name"><input class="cell-in" dir="auto" value="${esc(a.name)}" data-f="name" data-id="${esc(a.id)}" data-fkey="${esc(a.id)}:name"></div>
+          <div class="c c-name" style="padding-left:${(row.depth || 0) * 16 + 18}px"><input class="cell-in" dir="auto" value="${esc(a.name)}" data-f="name" data-id="${esc(a.id)}" data-fkey="${esc(a.id)}:name"></div>
           <div class="c c-dur">${isM ? '<span class="t-mut">◆</span>' : `<input class="cell-in" type="number" min="1" value="${a.dur}" data-f="dur" data-id="${esc(a.id)}" data-fkey="${esc(a.id)}:dur" ${r.status === 'complete' ? 'disabled' : ''}>`}</div>
           <div class="c c-s num">${D.fmt(r.s)}</div><div class="c c-f num">${D.fmt(r.lastDay)}</div>
+          <div class="c c-bs num">${b ? D.fmt(b.s) : ''}</div><div class="c c-bf num">${b ? D.fmt(b.dur > 0 ? r.cal.prev(b.f - 1) : b.s) : ''}</div>
           <div class="c c-tf num tfv ${tfc}">${r.status === 'complete' ? '—' : tf}</div>
           <div class="c c-pct"><input class="cell-in" type="number" min="0" max="100" value="${r.status === 'complete' ? 100 : a.pct || 0}" data-f="pct" data-id="${esc(a.id)}" data-fkey="${esc(a.id)}:pct"></div>
+          <div class="c c-sp num">${b ? Math.round(PF.CPM.frac(C.cals[b.cal] || C.defCal, b.s, b.f, b.dur, D.toNum(S.meta.dataDate) + 1) * 100) + '%' : ''}</div>
         </div>
         <div class="gcell" style="width:${W}px">${g2}</div></div>`;
     }).join('');
@@ -1728,7 +2813,8 @@ table.t input[type=number] { text-align: center; }
       <div class="stool no-print">
         <button class="btn primary" data-act="add">${PF.icon('plus')} نشاط</button>
         <button class="btn" data-act="addm">${PF.icon('plus')} معلم</button>
-        <button class="btn" data-act="addg">${PF.icon('plus')} مجموعة</button>
+        <button class="btn" data-act="addg" title="يُضاف داخل المجموعة المحددة حالياً (أي عمق)">${PF.icon('plus')} مجموعة</button>
+        <button class="btn" data-act="wbs">${PF.icon('wbs')} هيكل WBS</button>
         <button class="btn" data-act="edit" ${selA ? '' : 'disabled'}>${PF.icon('edit')} تفاصيل النشاط</button>
         <button class="btn" data-act="del" ${selA ? '' : 'disabled'}>${PF.icon('trash')} حذف</button>
         <span class="sp"></span>
@@ -1744,7 +2830,7 @@ table.t input[type=number] { text-align: center; }
       <div class="sgrid ${UI.tbl ? '' : 'collapsed-tbl'}" data-keepscroll="sched" style="--tblw:${tblW}px">
         <div class="sinner" style="width:${tblW + W}px">
           <div class="shead"><div class="scells">
-            <div class="c c-id">الرقم</div><div class="c c-name" dir="rtl">اسم النشاط</div><div class="c c-dur">المدة</div><div class="c c-s">البداية</div><div class="c c-f">النهاية</div><div class="c c-tf" title="Total Float بأيام العمل">Float</div><div class="c c-pct">%</div></div>
+            <div class="c c-id">الرقم</div><div class="c c-name" dir="rtl">اسم النشاط</div><div class="c c-dur">المدة</div><div class="c c-s">البداية</div><div class="c c-f">النهاية</div><div class="c c-bs" title="بداية خط الأساس">BL بداية</div><div class="c c-bf" title="نهاية خط الأساس">BL نهاية</div><div class="c c-tf" title="Total Float بأيام العمل">Float</div><div class="c c-pct" title="الإنجاز الفعلي (Performance %)">فعلي %</div><div class="c c-sp" title="الإنجاز المخطط حسب خط الأساس عند تاريخ البيانات (Schedule %)">مخطط %</div></div>
             <div style="position:relative;width:${W}px;flex:none">${head}</div></div>
           <div class="gbg" style="height:${rows.length * ROWH}px">${bg}</div>
           <div class="rows">${rowsHtml || '<div class="sched-empty"><b>لا توجد أنشطة مطابقة</b><br>غيّر التصفية أو أضف نشاطاً جديداً.</div>'}
@@ -1761,12 +2847,12 @@ table.t input[type=number] { text-align: center; }
       const t = e.target;
       const z = t.closest('[data-z]'); if (z) { UI.zoom = +z.dataset.z; saveUI(); PF.App.render(false); return; }
       const gt = t.closest('[data-gtoggle]');
-      if (gt) { const id = gt.dataset.gtoggle; UI.collapsed[id] = !UI.collapsed[id]; saveUI(); PF.App.render(false); return; }
+      if (gt) { const id = gt.dataset.gtoggle; UI.collapsed[id] = !UI.collapsed[id]; UI.selG = id; saveUI(); PF.App.render(false); return; }
       const act = t.closest('[data-act]');
       if (act) { actions[act.dataset.act] && actions[act.dataset.act](); return; }
       if (t.closest('input,select')) return;
       const row = t.closest('[data-row]');
-      if (row) { UI.sel = row.dataset.row; PF.App.render(false); }
+      if (row) { UI.sel = row.dataset.row; const a = S_().activities.find((x) => x.id === UI.sel); UI.selG = a ? a.wbs : null; PF.App.render(false); }
     };
     root.ondblclick = (e) => {
       const gt = e.target.closest('[data-gtoggle]');
@@ -1836,9 +2922,12 @@ table.t input[type=number] { text-align: center; }
     add() { addActivity('task'); },
     addm() { addActivity('milestone'); },
     async addg() {
-      const n = await PF.prompt('مجموعة جديدة (WBS)', 'اسم المجموعة', '');
-      if (n) PF.Store.mutate((st) => st.wbs.push({ id: PF.uid('w'), name: n }));
+      const S = S_(), parent = UI.selG && PF.WBS.byId(S, UI.selG) ? UI.selG : '';
+      const where = parent ? 'داخل «' + PF.WBS.byId(S, parent).name + '»' : 'في المستوى الأول';
+      const n = await PF.prompt('عنصر WBS جديد ' + where, 'الاسم', '');
+      if (n) { PF.Store.mutate((st) => { PF.WBS.add(st, parent, n); }); if (parent) UI.collapsed[parent] = false; }
     },
+    wbs() { location.hash = '#/wbs'; },
     edit() { UI.sel && editActivity(UI.sel); },
     async del() {
       const S = S_(), a = S.activities.find((x) => x.id === UI.sel);
@@ -1856,7 +2945,7 @@ table.t input[type=number] { text-align: center; }
     const sel = UI.sel && S.activities.find((a) => a.id === UI.sel);
     const id = PF.Actions.nextId(S);
     PF.Store.mutate((st) => {
-      const wbs = sel ? sel.wbs : st.wbs[0] ? st.wbs[0].id : '';
+      const wbs = sel ? sel.wbs : UI.selG && PF.WBS.byId(st, UI.selG) ? UI.selG : st.wbs[0] ? st.wbs[0].id : '';
       const a = { id, name: type === 'milestone' ? 'معلم جديد' : 'نشاط جديد', wbs, type, dur: type === 'milestone' ? 0 : 5, cal: '', constraint: null, pct: 0, actualStart: null, actualFinish: null, remaining: null, budget: 0, actualCost: 0, notes: '', preds: sel ? [{ id: sel.id, type: 'FS', lag: 0 }] : [], resources: [] };
       const i = sel ? st.activities.findIndex((x) => x.id === sel.id) : st.activities.length - 1;
       st.activities.splice(i + 1, 0, a);
@@ -1880,7 +2969,6 @@ table.t input[type=number] { text-align: center; }
     if (!orig) return;
     const d = PF.clone(orig);
     const r = C.byId[id];
-    const mats = S.materials.filter((m) => m.activityId === id);
     const others = S.activities.filter((a) => a.id !== id);
     const REL = [['FS', 'نهاية→بداية (FS)'], ['SS', 'بداية→بداية (SS)'], ['FF', 'نهاية→نهاية (FF)'], ['SF', 'بداية→نهاية (SF)']];
 
@@ -1889,7 +2977,7 @@ table.t input[type=number] { text-align: center; }
         <div class="row"><label class="fld" style="flex:3 1 260px"><span>اسم النشاط</span><input dir="auto" data-p="name" value="${esc(d.name)}"></label>
           <label class="fld"><span>الرقم</span><input value="${esc(d.id)}" disabled></label></div>
         <div class="row">
-          <label class="fld"><span>المجموعة (WBS)</span><select data-p="wbs">${PF.opts(S.wbs.map((w) => [w.id, w.name]), d.wbs)}</select></label>
+          <label class="fld"><span>المجموعة (WBS)</span><select data-p="wbs">${PF.opts(PF.WBS.flat(S).map((x) => [x.w.id, '\u00a0\u00a0'.repeat(x.depth) + x.w.name]), d.wbs)}</select></label>
           <label class="fld"><span>النوع</span><select data-p="type">${PF.opts([['task', 'نشاط'], ['milestone', 'معلم (مدة صفر)']], d.type)}</select></label>
           <label class="fld"><span>المدة (أيام عمل)</span><input type="number" min="0" data-p="dur" data-n value="${d.type === 'milestone' ? 0 : d.dur}" ${d.type === 'milestone' ? 'disabled' : ''}></label>
           <label class="fld"><span>التقويم</span><select data-p="cal">${PF.opts([['', 'تقويم المشروع'], ...S.calendars.map((c) => [c.id, c.name])], d.cal || '')}</select></label>
@@ -1916,7 +3004,6 @@ table.t input[type=number] { text-align: center; }
         ${d.resources.map((x, i) => `<div class="rel res"><select data-p="resources.${i}.rid">${PF.opts(S.resources.map((q) => [q.id, q.name]), x.rid)}</select>
           <input type="number" min="0" data-p="resources.${i}.perDay" data-n value="${x.perDay}"><button class="btn icon-btn" data-del-res="${i}">${PF.icon('trash', 15)}</button></div>`).join('')}
         <button class="btn sm" data-add-res ${S.resources.length ? '' : 'disabled'}>${PF.icon('plus', 14)} إضافة مورد</button></div>
-      ${mats.length ? `<div class="msec"><h4>المواد المرتبطة</h4>${mats.map((m) => `<div class="qrow"><span>${esc(m.name)}</span><span class="tag info" style="margin-inline-start:auto">${esc((PF.Calc.MAT_STATUS.find((s) => s[0] === m.status) || [])[1] || '')}</span></div>`).join('')}</div>` : ''}
       <div class="msec"><h4>ملاحظات</h4><textarea data-p="notes" dir="auto">${esc(d.notes || '')}</textarea></div>
       <div class="sub">الحالي: ${D.fmt(r.s)} → ${D.fmt(r.lastDay)} · Float: ${r.tf} · Free Float: ${r.ff}</div>`;
 
@@ -2053,107 +3140,6 @@ table.t input[type=number] { text-align: center; }
   }
 
   PF.Views.progress = { render };
-})(window);
-
-</script>
-  <script>
-/* PlanFlow — المواد والمشتريات: مربوطة بأنشطة الجدول، وتنبّه للتأخير قبل أن يصيب المسار الحرج */
-(function (g) {
-  const PF = g.PF;
-  const D = PF.D, esc = PF.esc;
-  const ST = PF.Calc.MAT_STATUS;
-  const stLabel = (k) => (ST.find((s) => s[0] === k) || [])[1] || k;
-  let filter = 'all';
-  const HL = { late: 'متأخرة', risk: 'معرّضة', ok: 'ضمن الجدول', done: 'وصلت', none: 'غير مربوطة' };
-
-  function render(root) {
-    const S = PF.Store.state, C = PF.Store.C;
-    const all = PF.Calc.analyzeMaterials(S, C);
-    const cnt = (h) => all.filter((x) => (h === 'all' ? true : h === 'critical' ? x.critical : x.health === h)).length;
-    const list = all.filter((x) => (filter === 'all' ? true : filter === 'critical' ? x.critical : x.health === filter));
-    const ordered = all.filter((x) => ['ordered', 'shipped', 'delivered'].includes(x.m.status)).length;
-
-    root.innerHTML = `
-      <div class="pagehead"><div><h2>المواد والمشتريات</h2><div class="sub" style="margin:2px 0 0">كل مادة مربوطة بالنشاط الذي يحتاجها؛ يُحسب تاريخ «مطلوب بالموقع» تلقائياً من الجدول ويتحدّث معه.</div></div><span class="sp"></span>
-        <button class="btn primary" data-act="add">${PF.icon('plus')} مادة جديدة</button></div>
-      <div class="grid g4" style="margin-bottom:14px">
-        <div class="card kpi ${cnt('late') ? 'bad' : 'good'}"><div class="l">متأخرة</div><div class="v">${cnt('late')}</div><div class="s">وصولها بعد تاريخ الحاجة</div></div>
-        <div class="card kpi ${cnt('risk') ? 'warn' : 'good'}"><div class="l">معرّضة للتأخير</div><div class="v">${cnt('risk')}</div><div class="s">اقترب آخر موعد للطلب أو الهامش قليل</div></div>
-        <div class="card kpi ${cnt('critical') ? 'bad' : 'neutral'}"><div class="l">تؤثر على مسار حرج</div><div class="v">${cnt('critical')}</div><div class="s">أي تأخير فيها يؤخر الانتهاء</div></div>
-        <div class="card kpi neutral"><div class="l">تم طلبها أو وصلت</div><div class="v">${ordered} / ${all.length}</div><div class="s">من إجمالي المواد</div></div>
-      </div>
-      <div class="chips" style="margin-bottom:12px">${[['all', 'الكل'], ['late', 'متأخرة'], ['risk', 'معرّضة'], ['critical', 'تؤثر على مسار حرج'], ['ok', 'ضمن الجدول'], ['done', 'وصلت']].map(([k, l]) => `<button class="chip ${filter === k ? 'on' : ''}" data-f="${k}">${l}<i>${cnt(k)}</i></button>`).join('')}</div>
-      <div class="tw"><table class="t">
-        <thead><tr><th>المادة</th><th>النشاط المرتبط</th><th>الحالة</th><th class="n">مطلوب بالموقع</th><th class="n">آخر موعد للطلب</th><th class="n">الوصول المتوقع</th><th class="n">الفرق</th><th>الوضع</th><th></th></tr></thead>
-        <tbody>${list.map((x) => {
-          const { m } = x;
-          return `<tr>
-            <td dir="auto"><b>${esc(m.name)}</b><div class="t-mut" style="font-size:12px">${PF.num(m.qty)} ${esc(m.unit)} · ${esc(m.supplier || 'بدون مورد')}</div></td>
-            <td dir="auto">${x.a ? `<button class="link" data-edit-act="${esc(x.a.id)}">${esc(x.a.name)}</button>${x.r.critical ? ' <span class="tag crit">حرج</span>' : x.r.near ? ' <span class="tag near">شبه حرج</span>' : ''}` : '<span class="t-mut">—</span>'}</td>
-            <td><select data-id="${esc(m.id)}" data-f="status">${PF.opts(ST, m.status)}</select></td>
-            <td class="n num">${x.req != null ? D.fmt(x.req) : '—'}</td>
-            <td class="n num">${x.latestOrder != null && m.status !== 'delivered' ? D.fmt(x.latestOrder) : '—'}</td>
-            <td class="n num">${x.eta != null ? D.fmt(x.eta) + (x.projected ? ' <span class="t-mut" title="تقدير: لم يُحدَّد تاريخ وصول">~</span>' : '') : '—'}</td>
-            <td class="n num ${x.delta > 0 ? 't-bad' : 't-good'}">${x.delta == null || m.status === 'delivered' ? '—' : (x.delta > 0 ? '+' : '') + x.delta}</td>
-            <td><span class="tag ${x.health}">${HL[x.health]}</span>${x.health === 'ok' || x.health === 'done' ? '' : `<div class="t-mut" style="font-size:12px">${esc(x.reason)}</div>`}</td>
-            <td style="white-space:nowrap">${x.health === 'late' && x.a && x.eta != null && x.delta > 0 ? `<button class="btn sm" data-id="${esc(m.id)}" data-apply title="يثبّت قيد «يبدأ ليس قبل» على النشاط المرتبط لمعرفة أثر التأخير على الجدول">طبّق على الجدول</button> ` : ''}
-              <button class="btn sm icon-btn" data-id="${esc(m.id)}" data-edit title="تعديل">${PF.icon('edit', 15)}</button>
-              <button class="btn sm icon-btn" data-id="${esc(m.id)}" data-del title="حذف">${PF.icon('trash', 15)}</button></td></tr>`;
-        }).join('') || `<tr><td colspan="9"><div class="empty"><b>${all.length ? 'لا توجد مواد في هذه التصفية' : 'لم تُضف مواد بعد'}</b>${all.length ? '' : 'أضف المواد التي قد تؤخر الأعمال (حديد، مصاعد، ألمنيوم…) واربطها بالنشاط الذي يحتاجها.'}</div></td></tr>`}</tbody></table></div>
-      <div class="sub" style="margin-top:10px">آخر موعد للطلب = المطلوب بالموقع − مدة التوريد. «الفرق» بالأيام التقويمية: موجب = تأخير عن تاريخ الحاجة.</div>`;
-
-    root.onclick = (e) => {
-      const t = e.target.closest('button'); if (!t) return;
-      if (t.classList.contains('chip')) { filter = t.dataset.f; PF.App.render(false); return; }
-      if (t.dataset.act === 'add') { edit(null); return; }
-      if (t.dataset.editAct) { PF.Views.schedule.edit(t.dataset.editAct); return; }
-      const id = t.dataset.id; if (!id) return;
-      if (t.hasAttribute('data-edit')) edit(id);
-      else if (t.hasAttribute('data-del')) PF.confirm('حذف هذه المادة؟', 'حذف', true).then((ok) => ok && PF.Store.mutate((st) => { st.materials = st.materials.filter((m) => m.id !== id); }));
-      else if (t.hasAttribute('data-apply')) {
-        const x = all.find((y) => y.m.id === id);
-        const date = D.toIso(x.eta + (+x.m.bufferDays || 0));
-        PF.Store.mutate((st) => { st.activities.find((a) => a.id === x.m.activityId).constraint = { type: 'SNET', date }; });
-        PF.toast('تم تثبيت قيد «يبدأ ليس قبل ' + D.fmt(D.toNum(date)) + '» على النشاط. شاهد الأثر في الجدول.', 'ok');
-      }
-    };
-    root.onchange = (e) => {
-      const el = e.target;
-      if (el.dataset.f === 'status') PF.Store.mutate((st) => { const m = st.materials.find((x) => x.id === el.dataset.id); m.status = el.value; if (el.value === 'delivered' && !m.eta) m.eta = st.meta.dataDate; });
-    };
-  }
-
-  function edit(id) {
-    const S = PF.Store.state;
-    const d = id ? PF.clone(S.materials.find((m) => m.id === id)) : { id: 'M' + (S.materials.length + 1) + PF.uid('').slice(0, 2), name: '', qty: 1, unit: 'وحدة', supplier: '', activityId: '', approvalDays: 7, leadDays: 14, bufferDays: 5, status: 'planned', eta: '', notes: '' };
-    const body = `
-      <div class="row"><label class="fld" style="flex:3 1 220px"><span>اسم المادة</span><input dir="auto" data-p="name" value="${esc(d.name)}"></label>
-        <label class="fld"><span>الكمية</span><input type="number" data-p="qty" data-n value="${d.qty}"></label>
-        <label class="fld"><span>الوحدة</span><input data-p="unit" value="${esc(d.unit)}"></label></div>
-      <div class="row"><label class="fld"><span>المورد</span><input dir="auto" data-p="supplier" value="${esc(d.supplier)}"></label>
-        <label class="fld" style="flex:2 1 240px"><span>النشاط الذي يحتاجها</span><select data-p="activityId">${PF.opts([['', '— غير مربوطة —'], ...S.activities.map((a) => [a.id, a.id + ' — ' + a.name])], d.activityId)}</select></label></div>
-      <div class="row">
-        <label class="fld"><span>مدة الاعتماد (يوم)</span><input type="number" min="0" data-p="approvalDays" data-n value="${d.approvalDays}"></label>
-        <label class="fld"><span>مدة التوريد (يوم)</span><input type="number" min="0" data-p="leadDays" data-n value="${d.leadDays}"></label>
-        <label class="fld"><span>هامش أمان قبل البدء (يوم)</span><input type="number" min="0" data-p="bufferDays" data-n value="${d.bufferDays}"></label></div>
-      <div class="row"><label class="fld"><span>الحالة</span><select data-p="status">${PF.opts(ST, d.status)}</select></label>
-        <label class="fld"><span>تاريخ الوصول المؤكد/المتوقع</span><input type="date" data-p="eta" value="${d.eta || ''}"></label></div>
-      <label class="fld"><span>ملاحظات</span><textarea dir="auto" data-p="notes">${esc(d.notes || '')}</textarea></label>`;
-    const m = PF.modal({
-      title: id ? 'تعديل مادة' : 'مادة جديدة', body, wide: true,
-      actions: [{ label: 'إلغاء' }, {
-        label: 'حفظ', kind: 'primary',
-        onClick: () => {
-          if (!d.name.trim()) { PF.toast('اكتب اسم المادة', 'err'); return false; }
-          PF.Store.mutate((st) => { const i = st.materials.findIndex((x) => x.id === d.id); if (i >= 0) st.materials[i] = d; else st.materials.push(d); });
-        },
-      }],
-    });
-    const upd = (e) => { const el = e.target; if (!el.dataset.p) return; PF.setPath(d, el.dataset.p, el.dataset.n !== undefined ? (el.value === '' ? 0 : +el.value) : el.value); };
-    m.body.addEventListener('input', upd); m.body.addEventListener('change', upd);
-  }
-
-  PF.Views.materials = { render };
 })(window);
 
 </script>
@@ -2375,21 +3361,21 @@ table.t input[type=number] { text-align: center; }
 
 
   // استيراد XER: قراءة → اختيار المشروع إن تعدّدت → ملخص ومقارنة مع تواريخ P6 → تأكيد
-  function importXer(buf) {
+  function importXer(buf, fname) {
     let P;
     try { P = PF.XER.parse(PF.XER.decode(buf)); } catch (x) { PF.toast('تعذّر قراءة الملف: ' + x.message, 'err'); return; }
     if (P.projects.length > 1) {
       let pick = P.projects[0].id;
       const m = PF.modal({
         title: 'اختر المشروع', body: '<p style="margin-top:0">الملف يحتوي أكثر من مشروع. أي واحد تريد استيراده؟</p><select id="xp" style="width:100%">' + P.projects.map((p) => `<option value="${esc(p.id)}">${esc(p.name)} (${p.tasks} نشاط)</option>`).join('') + '</select>',
-        actions: [{ label: 'إلغاء' }, { label: 'متابعة', kind: 'primary', onClick: (api) => { pick = api.body.querySelector('#xp').value; setTimeout(() => review(P, pick), 0); } }],
+        actions: [{ label: 'إلغاء' }, { label: 'متابعة', kind: 'primary', onClick: (api) => { pick = api.body.querySelector('#xp').value; setTimeout(() => review(P, pick, fname), 0); } }],
       });
       return m;
     }
-    review(P, P.projects[0] && P.projects[0].id);
+    review(P, P.projects[0] && P.projects[0].id, fname);
   }
 
-  function review(P, projId) {
+  function review(P, projId, fname) {
     let R, C2, cmp;
     try { R = PF.XER.toState(P, { projId }); C2 = PF.CPM.run(R.state); cmp = PF.XER.compare(R.state, C2, R.p6); } catch (x) { PF.toast('تعذّر الاستيراد: ' + x.message, 'err'); return; }
     const S = R.state, n = S.activities.length;
@@ -2414,13 +3400,71 @@ table.t input[type=number] { text-align: center; }
         label: 'استيراد', kind: 'primary',
         onClick: (api) => {
           const withBl = api.body.querySelector('#xbl').checked;
-          PF.Store.replace(S);
+          // الاستيراد إضافة لا استبدال: تبقى بيانات المشروع (Master) والتغييرات والدفعات ويُحدَّث الجدول فقط
+          const old = PF.Store.state, oi = old.info || {}, ni = S.info || {};
+          const merged = Object.assign({}, ni); Object.keys(oi).forEach((k) => { if (oi[k] !== '' && oi[k] != null && !(Array.isArray(oi[k]) && !oi[k].length)) merged[k] = oi[k]; });
+          S.info = merged; S.checklist = old.checklist;
+          PF.Store.replace(S, { type: 'import', title: 'رفع ملف Primavera (XER): ' + (S.meta.name || ''), detail: [n + ' نشاط، ' + rel + ' علاقة، تاريخ البيانات ' + S.meta.dataDate].concat(cmp.total ? ['تطابق مع P6: ' + cmp.matchStart + '/' + cmp.total + ' بداية، ' + cmp.matchFinish + '/' + cmp.total + ' نهاية'] : []), source: fname || 'XER' });
           if (withBl) PF.Store.mutate((st) => { PF.Actions.captureBaseline(st, PF.Store.C, 'عند الاستيراد من XER'); });
           PF.toast('تم استيراد ' + n + ' نشاط من XER', 'ok');
-          location.hash = '#/schedule';
+          PF.App.show('checklist');
         },
       }],
     });
+  }
+
+  // استيراد Master Sheet (Excel): يختار مشروعاً من الصفوف ويحدّث بيانات المشروع الحالي
+  async function importMaster(buf, fname) {
+    let sheet, P;
+    try {
+      const wb = await PF.Xlsx.read(buf);
+      sheet = wb.sheets.find((x) => PF.Master.findHeader(x.rows) >= 0);
+      if (!sheet) throw new Error('لم أجد جدولاً فيه عمود Project ID');
+      P = PF.Master.parse(sheet.rows);
+    } catch (x) { PF.toast('تعذّر قراءة الملف: ' + x.message, 'err'); return; }
+    if (!P.projects.length) { PF.toast('لا توجد مشاريع في الملف', 'err'); return; }
+    const cur = PF.Store.state, curNo = (cur.info.projectNo || '').toLowerCase(), curName = (cur.meta.name || '').toLowerCase();
+    let sel = P.projects.findIndex((p) => (curNo && p.id.toLowerCase() === curNo) || (curName && p.name.toLowerCase() === curName));
+    const m = PF.modal({
+      title: 'استيراد Master Sheet', wide: true,
+      body: `<p style="margin-top:0">الورقة «${esc(sheet.name)}» — ${P.projects.length} مشروع. اختر المشروع الذي تريد سحب بياناته${sel >= 0 ? ' (طابقتُ المشروع الحالي تلقائياً)' : ''}:</p>
+        <select id="mp" style="width:100%">${P.projects.map((p, i) => `<option value="${i}" ${i === (sel < 0 ? 0 : sel) ? 'selected' : ''}>${esc(p.id || '—')} — ${esc(p.name)} (${esc(p.status)})</option>`).join('')}</select>
+        <label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="mfill"> املأ الحقول الفارغة فقط (لا تستبدل ما أدخلته)</label>
+        <p class="sub" style="margin:10px 0 0">يُسجَّل الاستيراد في «سجل التحديثات» مع الحقول التي تغيّرت. لا يمس الأنشطة والجدول.</p>`,
+      actions: [{ label: 'إلغاء' }, {
+        label: 'استيراد', kind: 'primary',
+        onClick: (api) => {
+          const pr = P.projects[+api.body.querySelector('#mp').value], fillOnly = api.body.querySelector('#mfill').checked;
+          const R = PF.Master.toInfo(sheet.rows, pr.row), lab = Object.fromEntries(PF.Info.FIELDS.map((f) => [f[0], f[1]]));
+          const detail = [];
+          PF.Store.mutate((st) => {
+            const info = st.info;
+            Object.keys(R.info).forEach((k) => {
+              const v = R.info[k];
+              if (Array.isArray(v)) { if (!v.length) return; if (fillOnly && info[k].length) return; if (JSON.stringify(info[k]) !== JSON.stringify(v)) { detail.push((k === 'vos' ? 'أوامر التغيير VO' : 'طلبات التغيير COR') + ': ' + info[k].length + ' ← ' + v.length); info[k] = v; } return; }
+              if (fillOnly && info[k] !== '' && info[k] != null) return;
+              if (String(info[k] == null ? '' : info[k]) !== String(v)) { detail.push((lab[k] || k) + ': ' + (info[k] === '' || info[k] == null ? '—' : info[k]) + ' ← ' + v); info[k] = v; }
+            });
+            if (R.currency && st.meta.currency !== R.currency) { detail.push('العملة: ' + st.meta.currency + ' ← ' + R.currency); st.meta.currency = R.currency; }
+            if (R.meta.name && (!fillOnly || /^(مشروع جديد|)$/.test(st.meta.name))) { if (st.meta.name !== R.meta.name) detail.push('اسم المشروع: ' + st.meta.name + ' ← ' + R.meta.name); st.meta.name = R.meta.name; }
+          }, { type: 'import', title: 'رفع Master Sheet: ' + (pr.id || pr.name), detail: ['(جارٍ الحساب)'], source: fname || 'Master.xlsx' });
+          // استبدل تفاصيل المدخل الأخير بقائمة التغييرات الفعلية
+          const st2 = PF.Store.state, last = st2.log[st2.log.length - 1];
+          if (last && last.type === 'import') { last.detail = detail.length ? detail.slice(0, 40) : ['لا تغييرات: البيانات مطابقة']; PF.Store.persist(); }
+          PF.toast('تم استيراد ' + detail.length + ' تغيير من الماستر', 'ok');
+          PF.App.show('projectdata');
+        },
+      }],
+    });
+    return m;
+  }
+
+  // موزّع الملفات: XER أو Excel أو JSON — كل رفع يُسجَّل تحديثاً
+  function importFile(f) {
+    const rd = new FileReader();
+    if (/\.xer$/i.test(f.name)) { rd.onload = () => importXer(rd.result, f.name); rd.readAsArrayBuffer(f); }
+    else if (/\.xls[xm]$/i.test(f.name)) { rd.onload = () => importMaster(rd.result, f.name); rd.readAsArrayBuffer(f); }
+    else { rd.onload = () => { try { const o = JSON.parse(rd.result); if (!o.activities || !o.meta) throw new Error('ملف غير صالح'); const co = o.company; delete o.company; if (co && co.holidays && co.holidays.length && !PF.Store.company.holidays.length) PF.Store.setCompany((x) => { x.holidays = PF.Company.merge(x.holidays, co.holidays); x.country = co.country || x.country; x.weekend = co.weekend || x.weekend; x.name = x.name || co.name || ''; }); PF.Store.replace(o, { type: 'import', title: 'رفع نسخة PlanFlow (JSON): ' + (o.meta.name || ''), detail: [(o.activities || []).length + ' نشاط'], source: f.name }); PF.toast('تم استيراد المشروع', 'ok'); } catch (x) { PF.toast('تعذّر الاستيراد: ' + x.message, 'err'); } }; rd.readAsText(f); }
   }
 
   function render(root) {
@@ -2442,12 +3486,11 @@ table.t input[type=number] { text-align: center; }
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
             <button class="btn primary" data-act="json">${PF.icon('download')} تصدير المشروع (JSON)</button>
             <button class="btn" data-act="csv">${PF.icon('download')} تصدير الجدول (CSV/Excel)</button>
-            <button class="btn" data-act="import">${PF.icon('upload')} استيراد مشروع</button><input type="file" id="file" accept=".json,.xer,application/json" hidden></div>
-          <h3 style="margin-top:18px">Primavera P6 (XER)</h3>
-          <p class="sub" style="margin-top:0">استورد ملف XER واحصل على مقارنة مع تواريخ P6 نفسها، أو صدّر المشروع إلى XER لفتحه في P6.</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-            <button class="btn" data-act="import">${PF.icon('upload')} استيراد XER</button>
             <button class="btn" data-act="xer">${PF.icon('download')} تصدير XER</button></div>
+          <h3 style="margin-top:18px">رفع تحديث</h3>
+          <p class="sub" style="margin-top:0">ارفع أي نوع: ملف Primavera (XER) يحدّث الجدول مع مقارنة بتواريخ P6، أو Master Sheet (Excel) يحدّث بيانات المشروع، أو نسخة PlanFlow (JSON). كل رفع يُسجَّل في <a class="link" href="#/log">سجل التحديثات</a> بتاريخه.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+            <button class="btn primary" data-act="import">${PF.icon('upload')} رفع ملف (XER / Excel / JSON)</button><input type="file" id="file" accept=".json,.xer,.xlsx,.xlsm,application/json" hidden></div>
           <h3 style="margin-top:18px">ابدأ من جديد</h3>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button class="btn" data-act="blank">مشروع فارغ</button>
@@ -2462,7 +3505,8 @@ table.t input[type=number] { text-align: center; }
             <div class="row"><label class="fld" style="flex:3 1 260px"><span>اسم التقويم</span><input dir="auto" data-cal="${ci}" data-k="name" value="${esc(c.name)}"></label>
               <div class="fld"><span>&nbsp;</span>${S.calendars.length > 1 ? `<button class="btn sm" data-delcal="${ci}">حذف التقويم</button>` : ''}</div></div>
             <div class="fld"><span>أيام العمل</span><div style="display:flex;gap:12px;flex-wrap:wrap">${WD.map((n, d) => `<label style="display:inline-flex;gap:5px;align-items:center;cursor:pointer"><input type="checkbox" data-cal="${ci}" data-wd="${d}" ${c.workdays.includes(d) ? 'checked' : ''}>${n}</label>`).join('')}</div></div>
-            <div class="fld"><span>العطل الرسمية</span><div class="chips">${(c.holidays || []).map((h, hi) => `<span class="chip">${D.fmtLong(D.toNum(h))} <button class="link" style="margin-inline-start:6px;text-decoration:none" data-cal="${ci}" data-delhol="${hi}" aria-label="حذف">✕</button></span>`).join('') || '<span class="t-mut">لا توجد عطل</span>'}
+            <label style="display:flex;gap:8px;align-items:center;margin:4px 0 10px;cursor:pointer"><input type="checkbox" data-cal="${ci}" data-usecomp ${c.useCompany === false ? '' : 'checked'}> طبّق عطل الشركة (${PF.Store.company.holidays.length} يوم) على هذا التقويم <a href="#/company" class="link">إدارة</a></label>
+            <div class="fld"><span>عطل خاصة بهذا التقويم فقط</span><div class="chips">${(c.holidays || []).map((h, hi) => `<span class="chip">${D.fmtLong(D.toNum(h))} <button class="link" style="margin-inline-start:6px;text-decoration:none" data-cal="${ci}" data-delhol="${hi}" aria-label="حذف">✕</button></span>`).join('') || '<span class="t-mut">لا توجد عطل</span>'}
               <input type="date" data-cal="${ci}" data-addhol style="width:auto" aria-label="إضافة عطلة"></div></div>
           </div>`).join('')}
       </div>
@@ -2473,14 +3517,13 @@ table.t input[type=number] { text-align: center; }
       if (el.dataset.m) { PF.Store.mutate((st) => { st.meta[el.dataset.m] = el.dataset.n !== undefined ? +el.value : el.value; }); return; }
       if (el.id === 'file') {
         const f = el.files[0]; if (!f) return;
-        const rd = new FileReader();
-        if (/\.xer$/i.test(f.name)) { rd.onload = () => importXer(rd.result); rd.readAsArrayBuffer(f); }
-        else { rd.onload = () => { try { const o = JSON.parse(rd.result); if (!o.activities || !o.meta) throw new Error('ملف غير صالح'); PF.Store.replace(o); PF.toast('تم استيراد المشروع', 'ok'); } catch (x) { PF.toast('تعذّر الاستيراد: ' + x.message, 'err'); } }; rd.readAsText(f); }
+        importFile(f);
         el.value = ''; return;
       }
       if (el.dataset.cal == null) return;
       const ci = +el.dataset.cal;
       if (el.dataset.k === 'name') PF.Store.mutate((st) => { st.calendars[ci].name = el.value; });
+      else if (el.hasAttribute('data-usecomp')) PF.Store.mutate((st) => { st.calendars[ci].useCompany = el.checked; });
       else if (el.dataset.wd != null) {
         const d = +el.dataset.wd;
         const cur = S.calendars[ci].workdays.filter((x) => x !== d).concat(el.checked ? [d] : []);
@@ -2491,7 +3534,7 @@ table.t input[type=number] { text-align: center; }
     root.onclick = async (e) => {
       const b = e.target.closest('button'); if (!b) return;
       const a = b.dataset.act;
-      if (a === 'json') PF.download((S.meta.code || 'project') + '.planflow.json', JSON.stringify(S, null, 1), 'application/json');
+      if (a === 'json') PF.download((S.meta.code || 'project') + '.planflow.json', JSON.stringify(Object.assign({}, S, { company: PF.Store.company }), null, 1), 'application/json');
       else if (a === 'csv') PF.download((S.meta.code || 'schedule') + '.csv', csv(S, C), 'text/csv;charset=utf-8');
       else if (a === 'xer') PF.download((S.meta.code || 'project') + '.xer', PF.XER.fromState(S, C), 'text/plain;charset=utf-8');
       else if (a === 'import') PF.$('#file').click();
@@ -2505,7 +3548,7 @@ table.t input[type=number] { text-align: center; }
     };
   }
 
-  PF.Views.settings = { render };
+  PF.Views.settings = { render, importXer, importMaster, importFile };
 })(window);
 
 </script>
@@ -2517,14 +3560,18 @@ table.t input[type=number] { text-align: center; }
   PF.Views = PF.Views || {};
 
   const NAV = [
-    ['dashboard', 'لوحة المشروع', 'dashboard'],
+    ['dashboard', 'الداشبورد التنفيذي', 'dashboard'],
+    ['projectdata', 'بيانات المشروع', 'info'],
+    ['checklist', 'قائمة التحقق', 'checklist'],
+    ['wbs', 'هيكل WBS', 'wbs'],
     ['schedule', 'الجدول الزمني', 'schedule'],
     ['progress', 'تحديث التقدّم', 'progress'],
-    ['materials', 'المواد والمشتريات', 'materials'],
     ['baselines', 'خط الأساس', 'baselines'],
     ['scurve', 'منحنى S والأداء', 'scurve'],
     ['resources', 'الموارد', 'resources'],
-    ['settings', 'الإعدادات والبيانات', 'settings'],
+    ['company', 'إعدادات الشركة والعطل', 'company'],
+    ['log', 'سجل التحديثات', 'calendar'],
+    ['settings', 'البيانات والاستيراد', 'settings'],
   ];
 
   let cur = 'dashboard';
@@ -2539,15 +3586,15 @@ table.t input[type=number] { text-align: center; }
     const M = PF.Calc.metrics(PF.Store.state, PF.Store.C);
     PF.$('#nav').innerHTML = NAV.map(([id, label, ic]) => {
       let badge = '';
-      if (id === 'materials' && M.matLate) badge = `<span class="badge" title="مواد متأخرة">${M.matLate}</span>`;
       if (id === 'schedule' && M.neg) badge = `<span class="badge" title="أنشطة بـ Float سالب">${M.neg}</span>`;
+      if (id === 'checklist') { const k = PF.Info.summary(PF.Store.state, PF.Store.C).missing; if (k) badge = `<span class="badge" title="بنود ناقصة">${k}</span>`; }
       return `<a href="#/${id}" class="${id === cur ? 'on' : ''}">${PF.icon(ic)}<span>${label}</span>${badge}</a>`;
     }).join('');
   }
 
   function drawTop() {
     const S = PF.Store.state, st = PF.Store;
-    const label = NAV.find((n) => n[0] === cur)[1];
+    const nv = NAV.find((n) => n[0] === cur), label = nv ? nv[1] : 'البداية';
     PF.$('#top').innerHTML = `
       <h1>${label}</h1>
       <span class="proj">${PF.esc(S.meta.name)}</span>
@@ -2587,6 +3634,11 @@ table.t input[type=number] { text-align: center; }
     }
   }
 
+  function show(id) {
+    if (!PF.Views[id]) return;
+    try { history.replaceState(null, '', '#/' + id); } catch (e) { /* معاينة معزولة */ }
+    cur = id; render(true);
+  }
   function go() {
     const next = route();
     if (next !== cur) { cur = next; render(true); }
@@ -2594,7 +3646,7 @@ table.t input[type=number] { text-align: center; }
 
   function boot() {
     PF.Store.init();
-    cur = route();
+    cur = (PF.Store.fresh && !location.hash) ? 'start' : route();
     window.addEventListener('hashchange', () => { cur = route(); render(true); });
     // تنقّل لا يعتمد على الـ hash (يعمل أيضاً داخل المعاينات المعزولة)
     document.addEventListener('click', (e) => {
@@ -2617,7 +3669,7 @@ table.t input[type=number] { text-align: center; }
     render(true);
   }
 
-  PF.App = { go, render, NAV };
+  PF.App = { go, show, render, NAV };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })(window);
 
